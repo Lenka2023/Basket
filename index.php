@@ -97,6 +97,9 @@ interface Basket{
 		public function Pay();
 	}
 	abstract class Product{
+		public $count=0;
+		
+			
 		static $variety;
 		public $product;
 		public static function create($name, $type)
@@ -117,77 +120,63 @@ interface Basket{
 			echo "$type:".$e->getMessage();
 		}
 }
+
+public function Add()
+			{
+			//var_dump($count);
+			
+			$this->$count=$this->$count+1;
+			 var_dump($this->$count);
+			
+			}
+				
+			
+			//$product1=Product::create('Wolf',1); 
+			public function Delete()
+			{
+				$this->$count=$this->$count-1;
+				//$_count=$count;
+				//var_dump($count);
+				
+				var_dump($this->$count);
+			}
+			public function Pay()
+			{
+				
+			}
+
 	}
 		  class Apples extends Product{
-			static $count=0;	
+				
 			public $name;
 			
 			public function construct($name)
 			{
 				$this->name=$name;
 			}
-			public function Add()
-			{
-				
-				$count++;
-				echo $count;
-			}
-			public function Delete()
-			{
-				//echo $count;
-				$count--;
-				echo $count;
-			}
-			public function Pay()
-			{
-				
-			}
+			
 			
 		}
 		 class Beer extends Product{
-			public $count=0;	
+				
 			public $name;
 			
 			public function construct($name)
 			{
 				$this->name=$name;
 			}
-			public function Add($count)
-			{
-				$count=0;
-				$count++;
-			}
-			public function Delete()
-			{
-				$count--;	
-			}
-			public function Pay()
-			{
-				
-			}
+			
 			
 		}
 		 class Water extends Product{
-			public $count=0;	
+			
 			public $name;
 			
 			public function construct($name)
 			{
 				$this->name=$name;
 			}
-			public function Add()
-			{
-				$count=0;
-				$count++;
-			}
-			public function Delete()
-			{
-				$count--;	
-			}
-			public function Pay()
-			{
-				
-			}
+			
 			
 		}
 		 class Cheese extends Product{
@@ -198,19 +187,7 @@ interface Basket{
 			{
 				$this->name=$name;
 			}
-			public function Add($count)
-			{
-				
-				$count++;	
-			}
-			public function Delete()
-			{
-				$count--;	
-			}
-			public function Pay()
-			{
-				
-			}
+			
 			
 		}
 	
@@ -221,7 +198,9 @@ $animal4=Animal::create('Elephant',4);
 $animal5=Animal::create(',Cougar',2);
 $animal6=Animal::create(',Insect',4);
 $animal7=Animal::create(',Antilopa',4);	*/
-//$product1->Add();
+
+$product1->Add();
+$product1->Add();
 $product1->Delete();
 /*$animal2->getColor('gray')->getWeight(8)->build();
 $animal3->getColor('gray')->getWeight(8)->build();
