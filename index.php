@@ -92,11 +92,7 @@
 </form>
 <script>
 	function Add(){
-		//alert(2);
-		"<php echo $variable; ?>";
-		"<php echo 1; ?>";
-		"<php $product1->Add(); echo $add; ?>";
-		
+		"<php echo $product1->Add();  ?>";
 				}
 	function Delete(){
 		
@@ -361,9 +357,6 @@ $variable='abc';
 if (isset($_GET['hello'])) {
 echo " <script type=\"text/javascript\">
 function Add(){
-		//alert(2);
-		'<php echo $variable; ?>';
-		'<php echo 1; ?>';
 		'<php echo $product1->Add(); ?>';
 		
 				}Add();</script>";
