@@ -93,9 +93,9 @@
 <script>
 	function Add(){
 		//alert(2);
-		"<php echo '$variable'; ?>";
+		"<php echo $variable; ?>";
 		"<php echo 1; ?>";
-		"<php '$add=$product1->Add()'; echo '$add'; ?>";
+		"<php $product1->Add(); echo $add; ?>";
 		
 				}
 	function Delete(){
@@ -161,7 +161,7 @@ interface Basket{
 
 public function Add()
 			{
-			//var_dump(33333);
+			var_dump(33333);
 			if((isset($_POST['product']))&&($_POST['product']=='apple')){
 				$this->$applecount=$this->$applecount+1;
 				//var_dump($this->$applecount);
@@ -357,14 +357,14 @@ if (!isset($_SESSION['cheese'])) {
 				//var_dump($this->$applecount);
 	}*/
 	 
-$variable=0000;
+$variable='abc';
 if (isset($_GET['hello'])) {
 echo " <script type=\"text/javascript\">
 function Add(){
 		//alert(2);
 		'<php echo $variable; ?>';
 		'<php echo 1; ?>';
-		'<php $add=$product1->Add(); echo $add; ?>';
+		'<php echo $product1->Add(); ?>';
 		
 				}Add();</script>";
 }
