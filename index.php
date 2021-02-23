@@ -14,9 +14,10 @@
            
             
                 <div class="middle">
-					<button onclick=""> Add</button>
-                    <button onclick="">Delete</button>
-                     <button onclick="">Pay</button>
+					<a href='index.php?hello=true'>Run PHP Function</a>
+					<button id="add" onclick="Add()"><a href='index.php?hello=true'>Add</a></button>
+                    <button id="delete" onclick="Delete()">Delete</button>
+                     <button id="pay" onclick="Pay()">Pay</button>
 					 <br>  
 					  
 					 
@@ -89,6 +90,41 @@
 	  <label for="ups">ups</label><br>  
 	  <input type="submit" value="Submit">
 </form>
+<script>
+	function Add(){
+		//alert(2);
+		"<php echo '$variable'; ?>";
+		"<php echo 1; ?>";
+		"<php '$add=$product1->Add()'; echo '$add'; ?>";
+		
+				}
+	function Delete(){
+		
+	}
+	function Pay(){
+		
+	}
+	/*$(function() {
+      $('form').submit(function(e) {
+        var $form = $(this);
+        $.ajax({
+          type: $form.attr('POST'),
+          url: $form.attr('index.php'),
+          data: $form.serialize()
+        }).done(function() {
+          console.log('success');
+        }).fail(function() {
+          console.log('fail');
+        });
+        //отмена действия по умолчанию для кнопки submit
+        e.preventDefault(); 
+      });
+    });*/
+/*var totc=document.getElementsByClassName('totc');
+totb[0].value="<?php echo $total_purchase_cost?>"
+var remb=document.getElementsByClassName('remb');
+remb[0].value="<?php echo $remaining_balance?>"*/
+   </script>  
 
 <?php
 interface Basket{
@@ -97,9 +133,11 @@ interface Basket{
 		public function Pay();
 	}
 	abstract class Product{
-		public $count=0;
+		public $applecount=0;
+		public $beercount=0;
+		public $watercount=0;
+		public $cheesecount=0;
 		
-			
 		static $variety;
 		public $product;
 		public static function create($name, $type)
@@ -123,29 +161,96 @@ interface Basket{
 
 public function Add()
 			{
-			//var_dump($count);
-			
-			$this->$count=$this->$count+1;
-			 var_dump($this->$count);
-			
+			//var_dump(33333);
+			if((isset($_POST['product']))&&($_POST['product']=='apple')){
+				$this->$applecount=$this->$applecount+1;
+				//var_dump($this->$applecount);
+	}else
+			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')){
+				$this->$beercount=$this->$beercount+1;
+				var_dump($this->$beercount);
+	}else
+			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')){
+				$this->$watercount=$this->$watercount+1;
+				var_dump($this->$watercount);
+	}else
+			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')){
+				$this->$cheesecount=$this->$cheesecount+1;
+				var_dump($this->$cheesecount);
+	}else{echo 'No product selected';}
 			}
 				
-			
-			//$product1=Product::create('Wolf',1); 
 			public function Delete()
 			{
-				$this->$count=$this->$count-1;
-				//$_count=$count;
-				//var_dump($count);
-				
-				var_dump($this->$count);
+			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')){
+				$this->$applecount=$this->$applecount-1;
+				var_dump($this->$applecount);
+	}
+			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')){
+				$this->$beercount=$this->$beercount-1;
+				var_dump($this->$beercount);
+	}
+			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')){
+				$this->$watercount=$this->$watercount-1;
+				var_dump($this->$watercount);
+	}
+			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')){
+				$this->$cheesecount=$this->$cheesecount-1;
+	}			var_dump($this->$cheesecount);
 			}
 			public function Pay()
 			{
-				
+				$applecount=$this->$applecount;
+				//echo $applecount;
+				$beercount=$this->$beercount;
+				//echo $beercount;
+				$watercount=$this->$watercount;
+				//echo $watercount;
+				$cheesecount=$this->$cheesecount;
+				//echo $cheesecount;
+				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+	if(mysqli_connect_errno()){
+		printf("Error connect to DB:%S\n",mysqli_error($db));
+		exit();
+								}
+		
+
+$query1="SELECT Previous_balance FROM `balance` ";
+$result1 = mysqli_query($db, $query1);
+$previous_balance = mysqli_fetch_array($result1);
+$query2="SELECT Cost FROM `products` WHERE Product='Apple'";
+$result2 = mysqli_query($db, $query2);
+$appcost = mysqli_fetch_array($result2);
+$query3="SELECT Cost FROM `products` WHERE Product='Beer'";
+$result3 = mysqli_query($db, $query3);
+$beercost = mysqli_fetch_array($result3);
+$query4="SELECT Cost FROM `products` WHERE Product='Water'";
+$result4 = mysqli_query($db, $query4);
+$watercost = mysqli_fetch_array($result4);
+$query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
+$result5 = mysqli_query($db, $query5);
+$cheesecost = mysqli_fetch_array($result5);
+		
+
+if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
+	echo "Select shiping please";
+}
+
+$total_purchase_cost=$appcost[0]*$applecount+$beercost[0]*$beercount+$watercost[0]*$watercount+$cheesecost[0]*$cheesecount;
+if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
+	$ups=0.5;
+	$total_purchase_cost=$total_purchase_cost+$ups;
+}
+	
+//echo $total_purchase_cost;
+	$remaining_balance=$previous_balance[0]-$total_purchase_cost;
+$previous_balance[0]=$remaining_balance;
+//echo $previous_balance[0];
+	}	
+
 			}
 
-	}
+	
 		  class Apples extends Product{
 				
 			public $name;
@@ -190,38 +295,36 @@ public function Add()
 			
 			
 		}
-	
-$product1=Product::create('Wolf',1);	
-/*$animal2=Animal::create('Lion',2);
-$animal3=Animal::create('Shark',3);
-$animal4=Animal::create('Elephant',4);
-$animal5=Animal::create(',Cougar',2);
-$animal6=Animal::create(',Insect',4);
-$animal7=Animal::create(',Antilopa',4);	*/
 
-$product1->Add();
-$product1->Add();
-$product1->Delete();
-/*$animal2->getColor('gray')->getWeight(8)->build();
-$animal3->getColor('gray')->getWeight(8)->build();
-$animal4->getColor('gray')->getWeight(8)->build();	*/																					
+$product1=Product::create('Wolf',1);	
+
+
+//$product1->Add();
+//$product1->Add();
+//$product1->Delete();
+//$product1->Pay();
+																		
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-/*$rateapple=array();
+$rateapple=array();
 $ratebeer=array();
 $ratewater=array();
-$rateacheese=array();*/
-//foreach($_POST['apple'] as  $value){
-//for($i=0;$i<count($_POST['apple']);$i++){	
+$rateacheese=array();
+foreach($_POST as $key=>$value){
+	//$rateapple=array();
+	if($key=='apple'){
+for($i=0;$i<count($rateapple);$i++){	
 //if(isset($_POST['apple'])&&(!empty($_POST['apple']))){
 	//foreach($_POST['apple'] as  $value){
 //for($i=0;$i<count($_POST['apple']);$i++){	
-	
-			//array_push($rateapple,$_POST['apple']);
-			//print_r($rateapple);
+	$rateapple[i]=$value[i];
+			//array_push($rateapple, $value);
+			
 			//print_r($_POST['apple']);
 			//print_r($value);
-	//}
-//}
+			print_r($rateapple);
+	}
+	}	
+}
 /*if(isset($_POST['beer'])&&(!empty($_POST['beer']))){
 	array_push($ratebeer,$_POST['beer']);
 	//print_r($ratebeer);
@@ -246,77 +349,35 @@ if (!isset($_SESSION['water'])) {
 if (!isset($_SESSION['cheese'])) {
   $cheeseprod=$_SESSION['cheese'];
 }*/
-$db=new mysqli('localhost', 'root', '', "abc_hosting");
-	if(mysqli_connect_errno()){
-		printf("Error connect to DB:%S\n",mysqli_error($db));
-		exit();
-								}
-		
-
-$query1="SELECT Previous_balance FROM `balance` ";
-$result1 = mysqli_query($db, $query1);
-$previous_balance = mysqli_fetch_array($result1);
-$query2="SELECT Cost FROM `products` WHERE Product='Apple'";
-$result2 = mysqli_query($db, $query2);
-$appcost = mysqli_fetch_array($result2);
-$query3="SELECT Cost FROM `products` WHERE Product='Beer'";
-$result3 = mysqli_query($db, $query3);
-$beercost = mysqli_fetch_array($result3);
-$query4="SELECT Cost FROM `products` WHERE Product='Water'";
-$result4 = mysqli_query($db, $query4);
-$watercost = mysqli_fetch_array($result4);
-$query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
-$result5 = mysqli_query($db, $query5);
-$cheesecost = mysqli_fetch_array($result5);
-		
-/*if(isset($_POST['product'])&&(!empty($_POST['product']))){
-	print_r((string)$_POST['product']);
+//if((isset($_POST['product']))){var_dump($_POST['product']);}
+//if((isset($_POST['product']))&&($_POST['product']=='apple')){var_dump($_POST['product']);}else{var_dump(11111111);}
+/*if($_POST['product']=='Apple'){
+				var_dump(326);
+				//$this->$applecount=$this->$applecount+1;
+				//var_dump($this->$applecount);
 	}*/
-if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
-	echo "Select shiping please";
+	 
+$variable=0000;
+if (isset($_GET['hello'])) {
+echo " <script type=\"text/javascript\">
+function Add(){
+		//alert(2);
+		'<php echo $variable; ?>';
+		'<php echo 1; ?>';
+		'<php $add=$product1->Add(); echo $add; ?>';
+		
+				}Add();</script>";
 }
-
-if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
-	$ups=0.5;
-	$total_purchase_cost=$total_purchase_cost+$ups;
-	//print_r((string)$_POST['shiping']);
-	}	
-/*$applecount=0;
-$beercount=0;
-$watercount=0;
-$cheesecount=0;	*/				
-$total_purchase_cost;
-$remaining_balance=$previous_balance[0]-$total_purchase_cost;
-$previous_balance[0]=$remaining_balance;
 ?>
  
- <b>Previous_balance:</b><h4 id="prevb" ><?php echo $previous_balance[0]; ?></h4><br>
- <b>Total_purchase_cost:</b><h4 class="totc"></h4><br>  
- <b>Remaining_balance:</b><h4 class="remb"></h4><br> 
+ <b>Previous_balance:</b><h4 id="prevb" ><?php var_dump( $previous_balance[0]); ?></h4><br>
+ 
+ <b>Total_purchase_cost:</b><h4 class="totc"><?php var_dump($total_purchase_cost); ?></h4><br>
+ 
+ <b>Remaining_balance:</b><h4 class="remb"><?php var_dump($remaining_balance); ?></h4><br> 
 </div>
 	
         
-    <script>
-	/*$(function() {
-      $('form').submit(function(e) {
-        var $form = $(this);
-        $.ajax({
-          type: $form.attr('POST'),
-          url: $form.attr('index.php'),
-          data: $form.serialize()
-        }).done(function() {
-          console.log('success');
-        }).fail(function() {
-          console.log('fail');
-        });
-        //отмена действия по умолчанию для кнопки submit
-        e.preventDefault(); 
-      });
-    });
-/*var totc=document.getElementsByClassName('totc');
-totb[0].value="<?php echo $total_purchase_cost?>"
-var remb=document.getElementsByClassName('remb');
-remb[0].value="<?php echo $remaining_balance?>"*/
-   </script>  
+    
     </body>
 </html>				
