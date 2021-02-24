@@ -14,10 +14,9 @@
            
             
                 <div class="middle">
-					<a href='index.php?hello=true'>Run PHP Function</a>
 					<button id="add" onclick="Add()"><a href='index.php?hello=true'>Add</a></button>
-                    <button id="delete" onclick="Delete()">Delete</button>
-                     <button id="pay" onclick="Pay()">Pay</button>
+                    <button id="delete" onclick="Delete()"><a href='index.php?big=true'>Delete</a></button>
+                     <button id="pay" onclick="Pay()"><a href='index.php?world=true'>Pay</a></button>
 					 <br>  
 					  
 					 
@@ -91,9 +90,7 @@
 	  <input type="submit" value="Submit">
 </form>
 <script>
-	function Add(){
-		"<php echo $product1->Add();  ?>";
-				}
+	
 	function Delete(){
 		
 	}
@@ -292,7 +289,7 @@ $previous_balance[0]=$remaining_balance;
 			
 		}
 
-$product1=Product::create('Wolf',1);	
+//$product1=Product::create('Wolf',1);	
 
 
 //$product1->Add();
@@ -352,14 +349,32 @@ if (!isset($_SESSION['cheese'])) {
 				//$this->$applecount=$this->$applecount+1;
 				//var_dump($this->$applecount);
 	}*/
-	 
-$variable='abc';
-if (isset($_GET['hello'])) {
-echo " <script type=\"text/javascript\">
 function Add(){
-		'<php echo $product1->Add(); ?>';
-		
-				}Add();</script>";
+	$product1=Product::create('Wolf',1);	
+		 echo $product1->Add(); 
+			}
+ 
+
+if (isset($_GET['hello'])) {
+	Add();
+}
+function Delete(){
+	$product1=Product::create('Wolf',1);	
+		 echo $product1->Delete(); 
+			}
+ 
+
+if (isset($_GET['big'])) {
+	Delete();
+}
+function Pay(){
+	$product1=Product::create('Wolf',1);	
+		 echo $product1->Pay(); 
+			}
+ 
+
+if (isset($_GET['world'])) {
+	Delete();
 }
 ?>
  
