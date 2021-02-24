@@ -14,9 +14,9 @@
            
             
                 <div class="middle">
-					<button id="add" onclick="Add()"><a href='index.php?hello=true'>Add</a></button>
-                    <button id="delete" onclick="Delete()"><a href='index.php?big=true'>Delete</a></button>
-                     <button id="pay" onclick="Pay()"><a href='index.php?world=true'>Pay</a></button>
+					<button id="add" ><a href='index.php?hello=true'>Add</a></button>
+                    <button id="delete" ><a href='index.php?big=true'>Delete</a></button>
+                     <button id="pay" ><a href='index.php?world=true'>Pay</a></button>
 					 <br>  
 					  
 					 
@@ -91,12 +91,7 @@
 </form>
 <script>
 	
-	function Delete(){
-		
-	}
-	function Pay(){
-		
-	}
+	
 	/*$(function() {
       $('form').submit(function(e) {
         var $form = $(this);
@@ -173,7 +168,7 @@ public function Add()
 	}else{echo 'No product selected';}
 			}
 				
-			public function Delete()
+public function Delete()
 			{
 			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')){
 				$this->$applecount=$this->$applecount-1;
@@ -193,6 +188,7 @@ public function Add()
 			}
 			public function Pay()
 			{
+			var_dump(32654);	
 				$applecount=$this->$applecount;
 				//echo $applecount;
 				$beercount=$this->$beercount;
@@ -211,6 +207,7 @@ public function Add()
 $query1="SELECT Previous_balance FROM `balance` ";
 $result1 = mysqli_query($db, $query1);
 $previous_balance = mysqli_fetch_array($result1);
+var_dump($previous_balance[0]);
 $query2="SELECT Cost FROM `products` WHERE Product='Apple'";
 $result2 = mysqli_query($db, $query2);
 $appcost = mysqli_fetch_array($result2);
@@ -298,26 +295,34 @@ $previous_balance[0]=$remaining_balance;
 //$product1->Pay();
 																		
 //---------------------------------------------------------------------------------------------------------------------------------------------------------
-$rateapple=array();
-$ratebeer=array();
-$ratewater=array();
-$rateacheese=array();
-foreach($_POST as $key=>$value){
+
+/*if(isset($_POST['apple'])){
+	$apple_rate=$_POST['apple'];
+	$query6="INSERT INTO abc_hosting(apple_rate) VALUES ('$apple_rate')";
+	$query7="SELECT MAX(id) FROM abc_hosting";
+	$result7=mysqli_query($db, $query7);
+	$n = mysqli_fetch_array($result7);
+	$query8="SELECT apple_rate FROM abc_hosting";
+	$result8=mysqli_query($db, $query8);
+	$apple_rate_all= mysqli_fetch_array($result8);
+	$middle=array_sum($apple_rate_all)/$n[0];*/
+	
+//foreach($_POST as $key=>$value){
 	//$rateapple=array();
-	if($key=='apple'){
-for($i=0;$i<count($rateapple);$i++){	
+	//if($key=='apple'){
+//for($i=0;$i<count($rateapple);$i++){	
 //if(isset($_POST['apple'])&&(!empty($_POST['apple']))){
 	//foreach($_POST['apple'] as  $value){
 //for($i=0;$i<count($_POST['apple']);$i++){	
-	$rateapple[i]=$value[i];
-			//array_push($rateapple, $value);
+	//$rateapple[i]=$value[i];
+			//array_push($rateapple, $_POST['apple']);
 			
 			//print_r($_POST['apple']);
 			//print_r($value);
-			print_r($rateapple);
-	}
-	}	
-}
+			//print_r($rateapple);
+	//}
+	//}	
+//}
 /*if(isset($_POST['beer'])&&(!empty($_POST['beer']))){
 	array_push($ratebeer,$_POST['beer']);
 	//print_r($ratebeer);
@@ -374,7 +379,7 @@ function Pay(){
  
 
 if (isset($_GET['world'])) {
-	Delete();
+	Pay();
 }
 ?>
  
