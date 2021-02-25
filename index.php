@@ -89,30 +89,6 @@
 	  <label for="ups">ups</label><br>  
 	  <input type="submit" value="Submit">
 </form>
-<script>
-	
-	
-	/*$(function() {
-      $('form').submit(function(e) {
-        var $form = $(this);
-        $.ajax({
-          type: $form.attr('POST'),
-          url: $form.attr('index.php'),
-          data: $form.serialize()
-        }).done(function() {
-          console.log('success');
-        }).fail(function() {
-          console.log('fail');
-        });
-        //отмена действия по умолчанию для кнопки submit
-        e.preventDefault(); 
-      });
-    });*/
-/*var totc=document.getElementsByClassName('totc');
-totb[0].value="<?php echo $total_purchase_cost?>"
-var remb=document.getElementsByClassName('remb');
-remb[0].value="<?php echo $remaining_balance?>"*/
-   </script>  
 
 <?php
 interface Basket{
@@ -121,11 +97,9 @@ interface Basket{
 		public function Pay();
 	}
 	abstract class Product{
-		public $applecount=0;
-		public $beercount=0;
-		public $watercount=0;
-		public $cheesecount=0;
+		public $count=0;
 		
+			
 		static $variety;
 		public $product;
 		public static function create($name, $type)
@@ -133,7 +107,7 @@ interface Basket{
 		$variety=$name;
 		try{
 			switch($type){
-					case 1:{$product=new Apples($variety);break;}
+					case 1:{$product=new Apple($variety);break;}
 					case 2:{$product=new Beer($variety);break;}
 					case 3:{$product=new Water($variety);break;}
 					case 4:{$product=new Cheese($variety);break;}	
@@ -149,55 +123,38 @@ interface Basket{
 
 public function Add()
 			{
-			var_dump(33333);
-			if((isset($_POST['product']))&&($_POST['product']=='apple')){
-				$this->$applecount=$this->$applecount+1;
-				//var_dump($this->$applecount);
-	}else
-			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')){
-				$this->$beercount=$this->$beercount+1;
-				var_dump($this->$beercount);
-	}else
-			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')){
-				$this->$watercount=$this->$watercount+1;
-				var_dump($this->$watercount);
-	}else
-			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')){
-				$this->$cheesecount=$this->$cheesecount+1;
-				var_dump($this->$cheesecount);
-	}else{echo 'No product selected';}
+			var_dump(0000);	
+			var_dump($count);
+			
+			$this->$count=$this->$count+1;
+			 var_dump($this->$count);
+			
 			}
 				
-public function Delete()
+			
+			//$product1=Product::create('Wolf',1); 
+			public function Delete()
 			{
-			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')){
-				$this->$applecount=$this->$applecount-1;
-				var_dump($this->$applecount);
+				$this->$count=$this->$count-1;
+				//$_count=$count;
+				//var_dump($count);
+				
+				var_dump($this->$count);
+			}
+			
+
 	}
-			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')){
-				$this->$beercount=$this->$beercount-1;
-				var_dump($this->$beercount);
-	}
-			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')){
-				$this->$watercount=$this->$watercount-1;
-				var_dump($this->$watercount);
-	}
-			if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')){
-				$this->$cheesecount=$this->$cheesecount-1;
-	}			var_dump($this->$cheesecount);
+		  class Apple extends Product{
+				
+			public $name;
+			
+			public function construct($name)
+			{
+				$this->name=$name;
 			}
 			public function Pay()
 			{
-			var_dump(32654);	
-				$applecount=$this->$applecount;
-				//echo $applecount;
-				$beercount=$this->$beercount;
-				//echo $beercount;
-				$watercount=$this->$watercount;
-				//echo $watercount;
-				$cheesecount=$this->$cheesecount;
-				//echo $cheesecount;
-				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+			$db=new mysqli('localhost', 'root', '', "abc_hosting");
 	if(mysqli_connect_errno()){
 		printf("Error connect to DB:%S\n",mysqli_error($db));
 		exit();
@@ -210,47 +167,12 @@ $previous_balance = mysqli_fetch_array($result1);
 var_dump($previous_balance[0]);
 $query2="SELECT Cost FROM `products` WHERE Product='Apple'";
 $result2 = mysqli_query($db, $query2);
-$appcost = mysqli_fetch_array($result2);
-$query3="SELECT Cost FROM `products` WHERE Product='Beer'";
-$result3 = mysqli_query($db, $query3);
-$beercost = mysqli_fetch_array($result3);
-$query4="SELECT Cost FROM `products` WHERE Product='Water'";
-$result4 = mysqli_query($db, $query4);
-$watercost = mysqli_fetch_array($result4);
-$query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
-$result5 = mysqli_query($db, $query5);
-$cheesecost = mysqli_fetch_array($result5);
+$appcost = mysqli_fetch_array($result2);	
+$fullapplecost=$appcost[0];
+$query6="INSERT INTO `products`(summ) VALUES ('$fullapplecost') where product='Apple'";
+			}
+			
 		
-
-if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
-	echo "Select shiping please";
-}
-
-$total_purchase_cost=$appcost[0]*$applecount+$beercost[0]*$beercount+$watercost[0]*$watercount+$cheesecost[0]*$cheesecount;
-if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
-	$ups=0.5;
-	$total_purchase_cost=$total_purchase_cost+$ups;
-}
-	
-//echo $total_purchase_cost;
-	$remaining_balance=$previous_balance[0]-$total_purchase_cost;
-$previous_balance[0]=$remaining_balance;
-//echo $previous_balance[0];
-	}	
-
-			}
-
-	
-		  class Apples extends Product{
-				
-			public $name;
-			
-			public function construct($name)
-			{
-				$this->name=$name;
-			}
-			
-			
 		}
 		 class Beer extends Product{
 				
@@ -260,6 +182,27 @@ $previous_balance[0]=$remaining_balance;
 			{
 				$this->name=$name;
 			}
+			public function Pay()
+			{
+			$db=new mysqli('localhost', 'root', '', "abc_hosting");
+	if(mysqli_connect_errno()){
+		printf("Error connect to DB:%S\n",mysqli_error($db));
+		exit();
+								}
+		
+
+$query1="SELECT Previous_balance FROM `balance` ";
+$result1 = mysqli_query($db, $query1);
+$previous_balance = mysqli_fetch_array($result1);
+var_dump($previous_balance[0]);
+$query3="SELECT Cost FROM `products` WHERE Product='Beer'";
+$result3 = mysqli_query($db, $query3);
+$beercost = mysqli_fetch_array($result3);	
+$fullbeercost=$beercost[0];
+$query6="INSERT INTO `products`(summ) VALUES ('$fullbeercost') where product='Beer'";
+
+			}
+			
 			
 			
 		}
@@ -270,6 +213,25 @@ $previous_balance[0]=$remaining_balance;
 			public function construct($name)
 			{
 				$this->name=$name;
+			}
+			public function Pay()
+			{
+			$db=new mysqli('localhost', 'root', '', "abc_hosting");
+	if(mysqli_connect_errno()){
+		printf("Error connect to DB:%S\n",mysqli_error($db));
+		exit();
+								}
+		
+
+$query1="SELECT Previous_balance FROM `balance` ";
+$result1 = mysqli_query($db, $query1);
+$previous_balance = mysqli_fetch_array($result1);
+var_dump($previous_balance[0]);
+$query4="SELECT Cost FROM `products` WHERE Product='Water'";
+$result4 = mysqli_query($db, $query4);
+$watercost = mysqli_fetch_array($result4);	
+$fullwatercost=$watercost[0];
+$query6="INSERT INTO `products`(summ) VALUES ('$fullwatercost') where product='Water'";
 			}
 			
 			
@@ -282,115 +244,258 @@ $previous_balance[0]=$remaining_balance;
 			{
 				$this->name=$name;
 			}
-			
+			public function Pay()
+			{
+			$db=new mysqli('localhost', 'root', '', "abc_hosting");
+	if(mysqli_connect_errno()){
+		printf("Error connect to DB:%S\n",mysqli_error($db));
+		exit();
+								}
+		
+
+$query1="SELECT Previous_balance FROM `balance` ";
+$result1 = mysqli_query($db, $query1);
+$previous_balance = mysqli_fetch_array($result1);
+var_dump($previous_balance[0]);
+$query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
+$result5 = mysqli_query($db, $query5);
+$cheesecost = mysqli_fetch_array($result5);	
+$fullcheesecost=$cheesecost[0];
+$query6="INSERT INTO `products`(summ) VALUES ('$fullcheesecost') where product='Cheese'";
+			}
 			
 		}
-
-//$product1=Product::create('Wolf',1);	
-
-
-//$product1->Add();
-//$product1->Add();
-//$product1->Delete();
-//$product1->Pay();
-																		
-//---------------------------------------------------------------------------------------------------------------------------------------------------------
-
-/*if(isset($_POST['apple'])){
-	$apple_rate=$_POST['apple'];
-	$query6="INSERT INTO abc_hosting(apple_rate) VALUES ('$apple_rate')";
-	$query7="SELECT MAX(id) FROM abc_hosting";
-	$result7=mysqli_query($db, $query7);
-	$n = mysqli_fetch_array($result7);
-	$query8="SELECT apple_rate FROM abc_hosting";
-	$result8=mysqli_query($db, $query8);
-	$apple_rate_all= mysqli_fetch_array($result8);
-	$middle=array_sum($apple_rate_all)/$n[0];*/
+/*$apple=new Apple();	
+$apple->add();
+$apple->add();	*/
+function Add1(){
+	$apple=new Apple();	
+		 echo $apple->Add(); 
+			}
+			function Delete1(){
+	$apple=new Apple();	
+		 echo $apple->Delete(); 
+			}
+			function Pay1(){
+	$apple=new Apple();	
+		 echo $apple->Pay(); 
+			}
+function Add2(){
+	$beer=new Beer();		
+		 echo $beer->Add(); 	
+			}
+			function Delete2(){
+	$apple=new Beer();	
+		 echo $beer->Delete(); 
+			}
+			function Pay2(){
+	$apple=new Beer();	
+		 echo $beer->Pay(); 
+			}
+function Add3(){
+	$water=new Water();		
+		 echo $water->Add(); 	
+			}
+			function Delete3(){
+	$apple=new Water();	
+		 echo $water->Delete(); 
+			}
+			function Pay3(){
+	$apple=new Water();	
+		 echo $water->Pay(); 
+			}
+function Add4(){
+	$cheese=new Cheese();		
+		 echo $cheese->Add(); 	
+			}
+function Delete4(){
+	$apple=new Cheese();	
+		 echo $cheese->Delete(); 
+			}
+			function Pay4(){
+	$apple=new Cheese();	
+		 echo $cheese->Pay(); 
+			}		 			
+if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')){
+var_dump("Apple");	
+}else if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')){
+	var_dump("Beer");
+}else if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')){
+	var_dump("Water");
+}else if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')){
+	var_dump("Cheese");
 	
-//foreach($_POST as $key=>$value){
-	//$rateapple=array();
-	//if($key=='apple'){
-//for($i=0;$i<count($rateapple);$i++){	
-//if(isset($_POST['apple'])&&(!empty($_POST['apple']))){
-	//foreach($_POST['apple'] as  $value){
-//for($i=0;$i<count($_POST['apple']);$i++){	
-	//$rateapple[i]=$value[i];
-			//array_push($rateapple, $_POST['apple']);
-			
-			//print_r($_POST['apple']);
-			//print_r($value);
-			//print_r($rateapple);
-	//}
-	//}	
-//}
-/*if(isset($_POST['beer'])&&(!empty($_POST['beer']))){
-	array_push($ratebeer,$_POST['beer']);
-	//print_r($ratebeer);
-	}
-if(isset($_POST['water'])&&(!empty($_POST['water']))){
-	array_push($ratewater,$_POST['water']);
-	//print_r($ratewater);
-	}
-if(isset($_POST['cheese'])&&(!empty($_POST['cheese']))){
-	array_push($rateacheese,$_POST['cheese']);
-	//print_r($rateacheese);
-	}	*/
-/*if (!isset($_SESSION['apple'])) {
-  $appleprod=$_SESSION['apple'];
 }
-if (!isset($_SESSION['beer'])) {
-  $beerprod=$_SESSION['beer'];
-}
-if (!isset($_SESSION['water'])) {
-  $waterprod=$_SESSION['water'];
-}
-if (!isset($_SESSION['cheese'])) {
-  $cheeseprod=$_SESSION['cheese'];
-}*/
-//if((isset($_POST['product']))){var_dump($_POST['product']);}
-//if((isset($_POST['product']))&&($_POST['product']=='apple')){var_dump($_POST['product']);}else{var_dump(11111111);}
-/*if($_POST['product']=='Apple'){
-				var_dump(326);
-				//$this->$applecount=$this->$applecount+1;
-				//var_dump($this->$applecount);
-	}*/
-function Add(){
-	$product1=Product::create('Wolf',1);	
-		 echo $product1->Add(); 
+//--------------------------------------------------------------------------------------------------------------------------
+if (isset($_GET['hello'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+	Add4();
+			}		
+if (isset($_GET['hello'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+	Add3();
+			}		
+if (isset($_GET['hello'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+	Add2();
 			}
- 
-
-if (isset($_GET['hello'])) {
-	Add();
-}
-function Delete(){
-	$product1=Product::create('Wolf',1);	
-		 echo $product1->Delete(); 
+if (isset($_GET['hello'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+	Add1();
+			}			
+//--------------------------------------------------------------------------------------------------------------------------
+if (isset($_GET['big'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+	Delete4();
+			}		
+if (isset($_GET['big'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+	Delete3();
+			}		
+if (isset($_GET['big'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+	Delete2();
 			}
- 
+if (isset($_GET['big'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+	Delete1();
+			}	 
+//--------------------------------------------------------------------------------------------------------------------------
+if (isset($_GET['world'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+	Pay4();
+			}		
+if (isset($_GET['world'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+	Pay3();
+			}		
+if (isset($_GET['world'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+	Pay2();
+			}
+if (isset($_GET['world'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+	Pay1();
+			}	 
 
 if (isset($_GET['big'])) {
 	Delete();
 }
-function Pay(){
-	$product1=Product::create('Wolf',1);	
-		 echo $product1->Pay(); 
-			}
+
  
 
 if (isset($_GET['world'])) {
 	Pay();
 }
+//--------------------------------------------------------------------------------------------------------------------------
+$db=new mysqli('localhost', 'root', '', "abc_hosting");
+	if(mysqli_connect_errno()){
+		printf("Error connect to DB:%S\n",mysqli_error($db));
+		exit();
+								}
+$rateapple= Array();								
+if(isset($_POST['apple'])){
+	$apple_rate=$_POST['apple'];
+	$query6="INSERT INTO `apple_rate`(apple_rate) VALUES ('$apple_rate')";
+	$result6=mysqli_query($db, $query6);
+	$query7="SELECT MAX(id) FROM `apple_rate`";
+	$result7=mysqli_query($db, $query7);
+	$n = mysqli_fetch_array($result7);
+	$query8="SELECT apple_rate FROM `apple_rate` ";
+	$result8=mysqli_query($db, $query8);
+	$qtyapp= 0;
+while ($num = mysqli_fetch_assoc ($result8)) {
+    $qty += $num['apple_rate'];
+}
+	$middleapple=$qtyapp/$n[0];
+	var_dump($middleapple);
+}
+	//--------------------------------------------------------------------------------------------------------------------------
+$ratebeer= Array();								
+if(isset($_POST['beer'])){
+	$beer_rate=$_POST['beer'];
+	var_dump($beer_rate);
+	$query11="INSERT INTO `beer_rate`(beer_rate) VALUES ('$beer_rate')";
+	$result11=mysqli_query($db, $query11);
+	$query12="SELECT MAX(id) FROM `beer_rate`";
+	$result12=mysqli_query($db, $query12);
+	
+	$n = mysqli_fetch_array($result12);
+	var_dump($n[0]);
+	$query10="SELECT beer_rate FROM `beer_rate` ";
+	$result10=mysqli_query($db, $query10);
+	$qtybee= 0;
+while ($num = mysqli_fetch_assoc ($result10)) {
+    $qtybee += $num['beer_rate'];
+}
+echo $qty;
+	
+	$middlebeer=$qtybee/$n[0];
+	var_dump($middlebeer);
+}
+	//--------------------------------------------------------------------------------------------------------------------------
+$ratewater= Array();								
+if(isset($_POST['water'])){
+	$water_rate=$_POST['water'];
+	var_dump($water_rate);
+	$query16="INSERT INTO `water_rate`(water_rate) VALUES ('$water_rate')";
+	$result16=mysqli_query($db, $query16);
+	$query17="SELECT MAX(id) FROM `water_rate`";
+	$result17=mysqli_query($db, $query17);
+	
+	$n = mysqli_fetch_array($result17);
+	var_dump($n[0]);
+	$query18="SELECT water_rate FROM `water_rate` ";
+	$result18=mysqli_query($db, $query18);
+	$qtyw= 0;
+while ($num = mysqli_fetch_assoc ($result18)) {
+    $qtyw += $num['water_rate'];
+}
+echo $qty;
+	
+	$middlewater=$qtyw/$n[0];
+	var_dump($middlewater);
+}
+//--------------------------------------------------------------------------------------------------------------------------
+$ratecheese= Array();								
+if(isset($_POST['cheese'])){
+	$cheese_rate=$_POST['cheese'];
+	var_dump($cheese_rate);
+	$query13="INSERT INTO `cheese_rate`(cheese_rate) VALUES ('$cheese_rate')";
+	$result13=mysqli_query($db, $query13);
+	$query14="SELECT MAX(id) FROM `cheese_rate`";
+	$result14=mysqli_query($db, $query14);
+	
+	$n = mysqli_fetch_array($result14);
+	var_dump($n[0]);
+	$query15="SELECT cheese_rate FROM `cheese_rate` ";
+	$result15=mysqli_query($db, $query15);
+	$qtyc= 0;
+while ($num = mysqli_fetch_assoc ($result15)) {
+    $qtyc += $num['cheese_rate'];
+}
+echo $qty;
+	
+	$middlecheese=$qtyc/$n[0];
+	var_dump($middlecheese);
+}
 ?>
  
- <b>Previous_balance:</b><h4 id="prevb" ><?php var_dump( $previous_balance[0]); ?></h4><br>
- 
- <b>Total_purchase_cost:</b><h4 class="totc"><?php var_dump($total_purchase_cost); ?></h4><br>
- 
- <b>Remaining_balance:</b><h4 class="remb"><?php var_dump($remaining_balance); ?></h4><br> 
+ <b>Previous_balance:</b><h4 id="prevb" ><?php echo $previous_balance[0]; ?></h4><br>
+ <b>Total_purchase_cost:</b><h4 class="totc"></h4><br>  
+ <b>Remaining_balance:</b><h4 class="remb"></h4><br> 
 </div>
 	
         
-    
+    <script>
+	/*$(function() {
+      $('form').submit(function(e) {
+        var $form = $(this);
+        $.ajax({
+          type: $form.attr('POST'),
+          url: $form.attr('index.php'),
+          data: $form.serialize()
+        }).done(function() {
+          console.log('success');
+        }).fail(function() {
+          console.log('fail');
+        });
+        //отмена действия по умолчанию для кнопки submit
+        e.preventDefault(); 
+      });
+    });
+/*var totc=document.getElementsByClassName('totc');
+totb[0].value="<?php echo $total_purchase_cost?>"
+var remb=document.getElementsByClassName('remb');
+remb[0].value="<?php echo $remaining_balance?>"*/
+   </script>  
     </body>
 </html>				
