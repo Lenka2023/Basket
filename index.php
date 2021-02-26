@@ -1,4 +1,6 @@
 <?php session_start();
+error_reporting(-1);
+ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
 <html>
@@ -48,6 +50,7 @@
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
+					  <b>Applerate:</b><div id="applerate"></div>
 					  <form action="index.php" method="post">
 						  <label for="rate">Choose a rate for beer:</label>
 						  <select name="beer" id="rate">
@@ -59,6 +62,7 @@
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
+					   <b>Beerrate:</b><div id="beerrate"></div>
 					  <form action="index.php" method="post">
 						  <label for="rate">Choose a rate for water:</label>
 						  <select name="water" id="rate">
@@ -70,6 +74,7 @@
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
+					   <b>Waterrate:</b><div id="waterrate"></div>
 					  <form action="index.php" method="post">
 						  <label for="rate">Choose a rate for cheese:</label>
 						  <select name="cheese" id="rate">
@@ -81,6 +86,7 @@
 						  </select>
 						    <input type="submit" value="Submit">
   						</form>
+						 <b>Cheeserate:</b><div id="cheeserate"></div>
  <form action="index.php" method="POST">
 	  <p>Please select shiping option:</p>
 	  <input type="radio" id="pick_up" name="shiping" value="pick_up">
@@ -381,7 +387,13 @@ $db=new mysqli('localhost', 'root', '', "abc_hosting");
 		printf("Error connect to DB:%S\n",mysqli_error($db));
 		exit();
 								}
-$rateapple= Array();								
+$rateapple= Array();
+if(!isset($_SESSION['mypage_view']))
+{
+     $_SESSION['mypage_view'] = 1;   
+} else {
+     //check if this is not the first time the page has been viewed
+     if(isset($_SESSION['mypage_view'])) {								
 if(isset($_POST['apple'])){
 	$apple_rate=$_POST['apple'];
 	$query6="INSERT INTO `apple_rate`(apple_rate) VALUES ('$apple_rate')";
@@ -393,13 +405,21 @@ if(isset($_POST['apple'])){
 	$result8=mysqli_query($db, $query8);
 	$qtyapp= 0;
 while ($num = mysqli_fetch_assoc ($result8)) {
-    $qty += $num['apple_rate'];
+    $qtyapp += $num['apple_rate'];
 }
 	$middleapple=$qtyapp/$n[0];
 	var_dump($middleapple);
-}
+		$query20="UPDATE `products` SET Rate = $middleapple WHERE Product = 'Apple'";
+        $result20=mysqli_query($db, $query20);
+	
+}}}
 	//--------------------------------------------------------------------------------------------------------------------------
-$ratebeer= Array();								
+$ratebeer= Array();
+if(!isset($_SESSION['mypage_view']))
+{
+     $_SESSION['mypage_view'] = 1;   
+} else {
+if(isset($_SESSION['mypage_view'])) {		
 if(isset($_POST['beer'])){
 	$beer_rate=$_POST['beer'];
 	var_dump($beer_rate);
@@ -416,13 +436,21 @@ if(isset($_POST['beer'])){
 while ($num = mysqli_fetch_assoc ($result10)) {
     $qtybee += $num['beer_rate'];
 }
-echo $qty;
+
 	
 	$middlebeer=$qtybee/$n[0];
 	var_dump($middlebeer);
-}
+	$query21="UPDATE `products` SET Rate = $middlebeer WHERE Product = 'Beer'";
+        $result21=mysqli_query($db, $query21);
+	 $_SESSION['didit'] = true; 
+}}}
 	//--------------------------------------------------------------------------------------------------------------------------
-$ratewater= Array();								
+$ratewater= Array();
+if(!isset($_SESSION['mypage_view']))
+{
+     $_SESSION['mypage_view'] = 1;   
+} else {
+if(isset($_SESSION['mypage_view'])) {									
 if(isset($_POST['water'])){
 	$water_rate=$_POST['water'];
 	var_dump($water_rate);
@@ -439,13 +467,21 @@ if(isset($_POST['water'])){
 while ($num = mysqli_fetch_assoc ($result18)) {
     $qtyw += $num['water_rate'];
 }
-echo $qty;
+
 	
 	$middlewater=$qtyw/$n[0];
 	var_dump($middlewater);
-}
+	$query22="UPDATE `products` SET Rate = $middlewater WHERE Product = 'Water'";
+        $result22=mysqli_query($db, $query22);
+	  
+}}}
 //--------------------------------------------------------------------------------------------------------------------------
-$ratecheese= Array();								
+$ratecheese= Array();
+if(!isset($_SESSION['mypage_view']))
+{
+     $_SESSION['mypage_view'] = 1;   
+} else {
+if(isset($_SESSION['mypage_view'])) {									
 if(isset($_POST['cheese'])){
 	$cheese_rate=$_POST['cheese'];
 	var_dump($cheese_rate);
@@ -462,20 +498,25 @@ if(isset($_POST['cheese'])){
 while ($num = mysqli_fetch_assoc ($result15)) {
     $qtyc += $num['cheese_rate'];
 }
-echo $qty;
+
 	
 	$middlecheese=$qtyc/$n[0];
 	var_dump($middlecheese);
-}
+	$query23="UPDATE `products` SET Rate = $middlecheese WHERE Product = 'Сheese'";
+        $result23=mysqli_query($db, $query23);
+	 
+}}}
 ?>
  
- <b>Previous_balance:</b><h4 id="prevb" ><?php echo $previous_balance[0]; ?></h4><br>
+ <b>Previous_balance:</b><h4 id="prevb" ></h4><br>
  <b>Total_purchase_cost:</b><h4 class="totc"></h4><br>  
  <b>Remaining_balance:</b><h4 class="remb"></h4><br> 
 </div>
 	
         
     <script>
+	var applerate=document.getElementsById('applerate');
+	//applerate.value="<?php echo $middleapple?>";
 	/*$(function() {
       $('form').submit(function(e) {
         var $form = $(this);
@@ -491,7 +532,7 @@ echo $qty;
         //отмена действия по умолчанию для кнопки submit
         e.preventDefault(); 
       });
-    });
+    });*/
 /*var totc=document.getElementsByClassName('totc');
 totb[0].value="<?php echo $total_purchase_cost?>"
 var remb=document.getElementsByClassName('remb');
