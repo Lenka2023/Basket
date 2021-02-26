@@ -322,53 +322,48 @@ function Delete4(){
 	$apple=new Cheese();	
 		 echo $cheese->Pay(); 
 			}		 			
-if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')){
-var_dump("Apple");	
-}else if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')){
-	var_dump("Beer");
-}else if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')){
-	var_dump("Water");
-}else if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')){
-	var_dump("Cheese");
-	
-}
+
 //--------------------------------------------------------------------------------------------------------------------------
-if (isset($_GET['hello'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+if ((isset($_GET['hello']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='cheese')) {
+	var_dump("Cheese");
 	Add4();
 			}		
-if (isset($_GET['hello'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+if ((isset($_GET['hello']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='water')) {
+	var_dump("Water");
 	Add3();
 			}		
-if (isset($_GET['hello'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+if ((isset($_GET['hello']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='beer')) {
+	var_dump("Beer");
 	Add2();
 			}
-if (isset($_GET['hello'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+if ((isset($_GET['hello']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='apple')) {
+	var_dump("Apple");	
 	Add1();
 			}			
 //--------------------------------------------------------------------------------------------------------------------------
-if (isset($_GET['big'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+if ((isset($_GET['big']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='cheese')) {
 	Delete4();
 			}		
-if (isset($_GET['big'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+if ((isset($_GET['big']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='water')) {
 	Delete3();
 			}		
-if (isset($_GET['big'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+if ((isset($_GET['big']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='beer')) {
 	Delete2();
 			}
-if (isset($_GET['big'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+if ((isset($_GET['big']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='apple')) {
 	Delete1();
 			}	 
 //--------------------------------------------------------------------------------------------------------------------------
-if (isset($_GET['world'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+if ((isset($_GET['world']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='cheese')) {
 	Pay4();
 			}		
-if (isset($_GET['world'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+if ((isset($_GET['world']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='water')) {
 	Pay3();
 			}		
-if (isset($_GET['world'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+if ((isset($_GET['world']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='beer')) {
 	Pay2();
 			}
-if (isset($_GET['world'])&&(isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+if ((isset($_GET['world']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='apple')) {
 	Pay1();
 			}	 
 
