@@ -41,21 +41,17 @@ interface Basket{
 		public function Pay();
 	}
 	abstract class Product{
-	private	$_count;
+	protected	$_count;
 	
 	
-	abstract	function	__construct();
-	function setCount($count)
-	{
-		$_count = $count;
-	}
+	
 			
 	public function Add()
 			{
 			//var_dump($count);
 			
-			$count=$count+1;
-			 var_dump($count);
+			$this->_count=$this->_count+1;
+			 var_dump($this->_count);
 			
 			}
 				
@@ -72,13 +68,8 @@ interface Basket{
 		  class Apple extends Product{
 			function	__construct()
     {
-	$this->setCount(0);
+	$this->_count = 0;
     }
-}
-
-
-?>
-
 			
 			
 			public function Pay()
