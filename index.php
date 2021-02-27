@@ -59,8 +59,8 @@ interface Basket{
 			
 			public function Delete()
 			{
-				$this->$count=$this->$count-1;
-				var_dump($this->$count);
+				$this->_count=$this->_count-1;
+				var_dump($this->_count);
 			
 
 	}
@@ -90,7 +90,10 @@ $query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
 		
 		}
 		 class Beer extends Product{
-				
+			function	__construct()
+    {
+	$this->_count = 0;
+    }	
 			
 			
 			
@@ -114,7 +117,10 @@ $query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
 			
 		}
 		 class Water extends Product{
-			
+			function	__construct()
+    {
+	$this->_count = 0;
+    }
 			
 			public function Pay()
 			{
@@ -133,7 +139,10 @@ $query23="UPDATE `products` SET Sum = $fullwatercost WHERE Product = 'Water'";
 			
 		}
 		 class Cheese extends Product{
-				
+			function	__construct()
+    {
+	$this->_count = 0;
+    }	
 			
 			public function Pay()
 			{
