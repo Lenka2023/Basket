@@ -41,60 +41,46 @@ interface Basket{
 		public function Pay();
 	}
 	abstract class Product{
-		//public $count=0;
-		
-			
-		static $variety;
-		public $product;
-		public static function create($name, $type)
-		{
-		$variety=$name;
-		try{
-			switch($type){
-					case 1:{$product=new Apple($variety);break;}
-					case 2:{$product=new Beer($variety);break;}
-					case 3:{$product=new Water($variety);break;}
-					case 4:{$product=new Cheese($variety);break;}	
-					default:{throw new Exception("This type is undefined");break;}
-					}
+	private	$_count;
 	
-	if($type<5)return $product;
-}
-		catch(Exception $e){
-			echo "$type:".$e->getMessage();
-		}
-}
-
-public function Add($count = null)
-			{
-			$this->$count=$count;	
-				
-			//var_dump($this->$count);
+	
+	abstract	function	__construct();
+	function setCount($count)
+	{
+		$_count = $count;
+	}
 			
-			$this->$count=$this->$count+1;
-			 var_dump($this->$count);
+	public function Add()
+			{
+			//var_dump($count);
+			
+			$count=$count+1;
+			 var_dump($count);
 			
 			}
 				
 			
 			
 			public function Delete()
-			{var_dump(0000);	
+			{
 				$this->$count=$this->$count-1;
-							
 				var_dump($this->$count);
-			}
 			
 
 	}
+	}
 		  class Apple extends Product{
-				
-			public $name;
+			function	__construct()
+    {
+	$this->setCount(0);
+    }
+}
+
+
+?>
+
 			
-			public function construct($name)
-			{
-				$this->name=$name;
-			}
+			
 			public function Pay()
 			{
 			$db=new mysqli('localhost', 'root', '', "abc_hosting");
@@ -102,12 +88,6 @@ public function Add($count = null)
 		printf("Error connect to DB:%S\n",mysqli_error($db));
 		exit();
 								}
-		
-
-$query1="SELECT Previous_balance FROM `balance` ";
-$result1 = mysqli_query($db, $query1);
-$previous_balance = mysqli_fetch_array($result1);
-var_dump($previous_balance[0]);
 $query2="SELECT Cost FROM `products` WHERE Product='Apple'";
 $result2 = mysqli_query($db, $query2);
 $appcost = mysqli_fetch_array($result2);	
@@ -120,12 +100,9 @@ $query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
 		}
 		 class Beer extends Product{
 				
-			public $name;
 			
-			public function construct($name)
-			{
-				$this->name=$name;
-			}
+			
+			
 			public function Pay()
 			{
 			$db=new mysqli('localhost', 'root', '', "abc_hosting");
@@ -133,12 +110,6 @@ $query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
 		printf("Error connect to DB:%S\n",mysqli_error($db));
 		exit();
 								}
-		
-
-$query1="SELECT Previous_balance FROM `balance` ";
-$result1 = mysqli_query($db, $query1);
-$previous_balance = mysqli_fetch_array($result1);
-var_dump($previous_balance[0]);
 $query3="SELECT Cost FROM `products` WHERE Product='Beer'";
 $result3 = mysqli_query($db, $query3);
 $beercost = mysqli_fetch_array($result3);	
@@ -153,12 +124,7 @@ $query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
 		}
 		 class Water extends Product{
 			
-			public $name;
 			
-			public function construct($name)
-			{
-				$this->name=$name;
-			}
 			public function Pay()
 			{
 			$db=new mysqli('localhost', 'root', '', "abc_hosting");
@@ -166,12 +132,6 @@ $query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
 		printf("Error connect to DB:%S\n",mysqli_error($db));
 		exit();
 								}
-		
-
-$query1="SELECT Previous_balance FROM `balance` ";
-$result1 = mysqli_query($db, $query1);
-$previous_balance = mysqli_fetch_array($result1);
-var_dump($previous_balance[0]);
 $query4="SELECT Cost FROM `products` WHERE Product='Water'";
 $result4 = mysqli_query($db, $query4);
 $watercost = mysqli_fetch_array($result4);	
@@ -183,12 +143,7 @@ $query23="UPDATE `products` SET Sum = $fullwatercost WHERE Product = 'Water'";
 		}
 		 class Cheese extends Product{
 				
-			public $name;
 			
-			public function construct($name)
-			{
-				$this->name=$name;
-			}
 			public function Pay()
 			{
 			$db=new mysqli('localhost', 'root', '', "abc_hosting");
@@ -196,12 +151,6 @@ $query23="UPDATE `products` SET Sum = $fullwatercost WHERE Product = 'Water'";
 		printf("Error connect to DB:%S\n",mysqli_error($db));
 		exit();
 								}
-		
-
-$query1="SELECT Previous_balance FROM `balance` ";
-$result1 = mysqli_query($db, $query1);
-$previous_balance = mysqli_fetch_array($result1);
-var_dump($previous_balance[0]);
 $query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
 $result5 = mysqli_query($db, $query5);
 $cheesecost = mysqli_fetch_array($result5);	
@@ -234,7 +183,7 @@ function Add2(){
 		 echo $beer->Delete(); 
 			}
 			function Pay2(){
-	$apple=new Beer();	
+	$beer=new Beer();	
 		 echo $beer->Pay(); 
 			}
 function Add3(){
@@ -265,80 +214,73 @@ function Delete4(){
 //--------------------------------------------------------------------------------------------------------------------------
 if(array_key_exists('add',$_POST)){
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
-	var_dump("Cheese");
+	var_dump("add Cheese");
 	Add4();
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
-	var_dump("Water");
+	var_dump("add Water");
 	Add3();
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
-	var_dump("Beer");
+	var_dump("add Beer");
 	Add2();
 			}
 if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
 	Add1();
-	var_dump("Apple");	
+	var_dump("add Apple");	
 	
 			}
 }			
 //--------------------------------------------------------------------------------------------------------------------------
 if(array_key_exists('delete',$_POST)){
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
-	var_dump("Cheese");
+	var_dump("delete Cheese");
 	Delete4();
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
-	var_dump("Water");
+	var_dump("delete Water");
 	Delete3();
 			}	
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
-	var_dump("Beer");
+	var_dump("delete Beer");
 	Delete2();
 			}	
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
-	var_dump("Apple");	
+	var_dump("delete Apple");	
 	Delete1();
 			}	
 			}	 
 //--------------------------------------------------------------------------------------------------------------------------
  if(array_key_exists('pay',$_POST)){
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
-		var_dump("Cheese");
+		var_dump("pay Cheese");
 		Pay4();
 		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
 		echo "Please select shiping";
 }
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
-		var_dump("Water");
+		var_dump("pay Water");
 		Pay3();
 		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
 		echo "Please select shiping";
 }
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
-		var_dump("Beer");
+		var_dump("pay Beer");
 		Pay2();
 		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
 		echo "Please select shiping";
 }
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
-		var_dump("Apple");	
+		var_dump("pay Apple");	
 		Pay1();
 		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
 		echo "Please select shiping ";
 }
 			}
 }				
-				 
-
-
-
- 
-
-
 //--------------------------------------------------------------------------------------------------------------------------
 $db=new mysqli('localhost', 'root', '', "abc_hosting");
 	if(mysqli_connect_errno()){
@@ -487,12 +429,12 @@ var_dump($cheeserate[0]);
 $query30="SELECT Previous_balance FROM `balance` ";
 $result30 = mysqli_query($db, $query30);	
 $previous_balance = mysqli_fetch_array($result30);
-$query31="SELECT total_purchase_cost FROM `balance` ";
-$result31= mysqli_query($db, $query31);	
-$total_purchase_cost = mysqli_fetch_array($result31);
-$query32="SELECT remaining_balance FROM `balance` ";
-$result32= mysqli_query($db, $query32);	
-$remaining_balance = mysqli_fetch_array($result32);		
+//$query31="SELECT total_purchase_cost FROM `balance` ";
+//$result31= mysqli_query($db, $query31);	
+//$total_purchase_cost = mysqli_fetch_array($result31);
+//$query32="SELECT remaining_balance FROM `balance` ";
+//$result32= mysqli_query($db, $query32);	
+//$remaining_balance = mysqli_fetch_array($result32);		
 $query40="SELECT Sum FROM `products` WHERE Product='Apple'";
 $result40 = mysqli_query($db, $query40);
 $applesum = mysqli_fetch_array($result40);
