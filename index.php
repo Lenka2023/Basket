@@ -12,98 +12,36 @@ ini_set('display_errors', 1);
        
 	</head>
     <body>
-        
-           
-            
-                <div class="middle">
-					<button id="add" ><a href='index.php?hello=true'>Add</a></button>
-                    <button id="delete" ><a href='index.php?big=true'>Delete</a></button>
-                     <button id="pay" ><a href='index.php?world=true'>Pay</a></button>
-					 <br>  
-					  
-					 
-				<form action="index.php" method="POST">
-					<p>Please select your product:</p>
-					  <input type="radio" id="apple" name="product" value="apple">
-					  <label for="apple">Apple</label><br>
-					  
-					  <input type="radio" id="beer" name="product" value="beer">
-					  <label for="beer">Beer</label><br>
-					  
-					  <input type="radio" id="water" name="product" value="water">
-					  <label for="water">Water</label><br>
-					  
-					  <input type="radio" id="cheese" name="product" value="cheese">
-					  <label for="cheese">Cheese</label><br>
-						<input type="submit" value="Submit">
-					</form>
-	 
-				
-					  <form action="index.php" method="post">
-						  <label for="rate">Choose a rate for apple:</label>
-						  <select name="apple" id="rate">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						  </select>
-  						 <input type="submit" value="Submit">
-					  </form>
-					  <b>Applerate:</b><div id="applerate"></div>
-					  <form action="index.php" method="post">
-						  <label for="rate">Choose a rate for beer:</label>
-						  <select name="beer" id="rate">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						  </select>
-  						 <input type="submit" value="Submit">
-					  </form>
-					   <b>Beerrate:</b><div id="beerrate"></div>
-					  <form action="index.php" method="post">
-						  <label for="rate">Choose a rate for water:</label>
-						  <select name="water" id="rate">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						  </select>
-  						 <input type="submit" value="Submit">
-					  </form>
-					   <b>Waterrate:</b><div id="waterrate"></div>
-					  <form action="index.php" method="post">
-						  <label for="rate">Choose a rate for cheese:</label>
-						  <select name="cheese" id="rate">
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-							<option value="5">5</option>
-						  </select>
-						    <input type="submit" value="Submit">
-  						</form>
-						 <b>Cheeserate:</b><div id="cheeserate"></div>
- <form action="index.php" method="POST">
-	  <p>Please select shiping option:</p>
-	  <input type="radio" id="pick_up" name="shiping" value="pick_up">
-	  <label for="pick_up">pick_up</label><br>
-	  <input type="radio" id="ups" name="shiping" value="ups">
-	  <label for="ups">ups</label><br>  
-	  <input type="submit" value="Submit">
-</form>
-
-<?php
+		<div class="middle">
+		
+						 <br>  
+						  
+						 
+					<form action="index.php" method="POST">
+						<p>Please select your product:</p>
+						  <input type="radio" id="apple" name="product" value="apple">
+						  <label for="apple">Apple</label><br>
+						  
+						  <input type="radio" id="beer" name="product" value="beer">
+						  <label for="beer">Beer</label><br>
+						  
+						  <input type="radio" id="water" name="product" value="water">
+						  <label for="water">Water</label><br>
+						  
+						  <input type="radio" id="cheese" name="product" value="cheese">
+						  <label for="cheese">Cheese</label><br>
+						   <input type="submit" name="pay" value="Pay" />
+							<input type="submit" name="delete" value="Delete" />
+							<input type="submit" name="add" value="Add">
+						</form>
+  <?php
 interface Basket{
 		public function Add();
 		public function Delete();
 		public function Pay();
 	}
 	abstract class Product{
-		public $count=0;
+		//public $count=0;
 		
 			
 		static $variety;
@@ -127,10 +65,11 @@ interface Basket{
 		}
 }
 
-public function Add()
+public function Add($count = null)
 			{
-			var_dump(0000);	
-			var_dump($count);
+			$this->$count=$count;	
+				
+			//var_dump($this->$count);
 			
 			$this->$count=$this->$count+1;
 			 var_dump($this->$count);
@@ -138,13 +77,11 @@ public function Add()
 			}
 				
 			
-			//$product1=Product::create('Wolf',1); 
+			
 			public function Delete()
-			{
+			{var_dump(0000);	
 				$this->$count=$this->$count-1;
-				//$_count=$count;
-				//var_dump($count);
-				
+							
 				var_dump($this->$count);
 			}
 			
@@ -175,7 +112,8 @@ $query2="SELECT Cost FROM `products` WHERE Product='Apple'";
 $result2 = mysqli_query($db, $query2);
 $appcost = mysqli_fetch_array($result2);	
 $fullapplecost=$appcost[0];
-$query6="INSERT INTO `products`(summ) VALUES ('$fullapplecost') where product='Apple'";
+$query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
+        $result21=mysqli_query($db, $query21);
 			}
 			
 		
@@ -205,8 +143,9 @@ $query3="SELECT Cost FROM `products` WHERE Product='Beer'";
 $result3 = mysqli_query($db, $query3);
 $beercost = mysqli_fetch_array($result3);	
 $fullbeercost=$beercost[0];
-$query6="INSERT INTO `products`(summ) VALUES ('$fullbeercost') where product='Beer'";
-
+$query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
+        $result22=mysqli_query($db, $query22);
+		
 			}
 			
 			
@@ -237,8 +176,8 @@ $query4="SELECT Cost FROM `products` WHERE Product='Water'";
 $result4 = mysqli_query($db, $query4);
 $watercost = mysqli_fetch_array($result4);	
 $fullwatercost=$watercost[0];
-$query6="INSERT INTO `products`(summ) VALUES ('$fullwatercost') where product='Water'";
-			}
+$query23="UPDATE `products` SET Sum = $fullwatercost WHERE Product = 'Water'";
+        $result23=mysqli_query($db, $query23);			}
 			
 			
 		}
@@ -267,8 +206,8 @@ $query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
 $result5 = mysqli_query($db, $query5);
 $cheesecost = mysqli_fetch_array($result5);	
 $fullcheesecost=$cheesecost[0];
-$query6="INSERT INTO `products`(summ) VALUES ('$fullcheesecost') where product='Cheese'";
-			}
+$query24="UPDATE `products` SET Sum = $fullcheesecost WHERE Product = 'Cheese'";
+        $result24=mysqli_query($db, $query24);			}
 			
 		}
 /*$apple=new Apple();	
@@ -291,7 +230,7 @@ function Add2(){
 		 echo $beer->Add(); 	
 			}
 			function Delete2(){
-	$apple=new Beer();	
+	$beer=new Beer();	
 		 echo $beer->Delete(); 
 			}
 			function Pay2(){
@@ -303,11 +242,11 @@ function Add3(){
 		 echo $water->Add(); 	
 			}
 			function Delete3(){
-	$apple=new Water();	
+	$water=new Water();	
 		 echo $water->Delete(); 
 			}
 			function Pay3(){
-	$apple=new Water();	
+	$water=new Water();	
 		 echo $water->Pay(); 
 			}
 function Add4(){
@@ -315,67 +254,91 @@ function Add4(){
 		 echo $cheese->Add(); 	
 			}
 function Delete4(){
-	$apple=new Cheese();	
+	$cheese=new Cheese();	
 		 echo $cheese->Delete(); 
 			}
 			function Pay4(){
-	$apple=new Cheese();	
+	$cheese=new Cheese();	
 		 echo $cheese->Pay(); 
 			}		 			
 
 //--------------------------------------------------------------------------------------------------------------------------
-if ((isset($_GET['hello']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='cheese')) {
+if(array_key_exists('add',$_POST)){
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
 	var_dump("Cheese");
 	Add4();
-			}		
-if ((isset($_GET['hello']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='water')) {
+			}
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
 	var_dump("Water");
 	Add3();
-			}		
-if ((isset($_GET['hello']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='beer')) {
+			}
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
 	var_dump("Beer");
 	Add2();
 			}
-if ((isset($_GET['hello']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='apple')) {
-	var_dump("Apple");	
+if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
 	Add1();
-			}			
+	var_dump("Apple");	
+	
+			}
+}			
 //--------------------------------------------------------------------------------------------------------------------------
-if ((isset($_GET['big']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='cheese')) {
+if(array_key_exists('delete',$_POST)){
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+	var_dump("Cheese");
 	Delete4();
-			}		
-if ((isset($_GET['big']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='water')) {
-	Delete3();
-			}		
-if ((isset($_GET['big']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='beer')) {
-	Delete2();
 			}
-if ((isset($_GET['big']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='apple')) {
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+	var_dump("Water");
+	Delete3();
+			}	
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+	var_dump("Beer");
+	Delete2();
+			}	
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+	var_dump("Apple");	
 	Delete1();
+			}	
 			}	 
 //--------------------------------------------------------------------------------------------------------------------------
-if ((isset($_GET['world']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='cheese')) {
-	Pay4();
-			}		
-if ((isset($_GET['world']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='water')) {
-	Pay3();
-			}		
-if ((isset($_GET['world']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='beer')) {
-	Pay2();
-			}
-if ((isset($_GET['world']))&&(isset($_POST['product']))&&(!empty($_POST['product']))||($_POST['product']=='apple')) {
-	Pay1();
-			}	 
-
-if (isset($_GET['big'])) {
-	Delete();
+ if(array_key_exists('pay',$_POST)){
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+		var_dump("Cheese");
+		Pay4();
+		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
+		echo "Please select shiping";
 }
+			}
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+		var_dump("Water");
+		Pay3();
+		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
+		echo "Please select shiping";
+}
+			}
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+		var_dump("Beer");
+		Pay2();
+		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
+		echo "Please select shiping";
+}
+			}
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+		var_dump("Apple");	
+		Pay1();
+		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
+		echo "Please select shiping ";
+}
+			}
+}				
+				 
+
+
 
  
 
-if (isset($_GET['world'])) {
-	Pay();
-}
+
 //--------------------------------------------------------------------------------------------------------------------------
 $db=new mysqli('localhost', 'root', '', "abc_hosting");
 	if(mysqli_connect_errno()){
@@ -501,17 +464,130 @@ while ($num = mysqli_fetch_assoc ($result15)) {
         $result23=mysqli_query($db, $query23);
 	 
 }}}
-?>
+//--------------------------------------------------------------------------------------------------------------------------
+
+$db=new mysqli('localhost', 'root', '', "abc_hosting");
+	if(mysqli_connect_errno()){
+		printf("Error connect to DB:%S\n",mysqli_error($db));
+		exit();
+								}
+$query26="SELECT Rate FROM `products` WHERE Product='Apple'";
+$result26 = mysqli_query($db, $query26);
+$applerate = mysqli_fetch_array($result26);
+$query27="SELECT Rate FROM `products` WHERE Product='Beer'";
+$result27= mysqli_query($db, $query27);
+$beerrate = mysqli_fetch_array($result27);								
+$query28="SELECT Rate FROM `products` WHERE Product='Water'";
+$result28= mysqli_query($db, $query28);
+$waterrate = mysqli_fetch_array($result28);
+$query29="SELECT Rate FROM `products` WHERE Product='Сheese'";
+$result29= mysqli_query($db, $query29);
+$cheeserate = mysqli_fetch_array($result29);
+var_dump($cheeserate[0]);
+$query30="SELECT Previous_balance FROM `balance` ";
+$result30 = mysqli_query($db, $query30);	
+$previous_balance = mysqli_fetch_array($result30);
+$query31="SELECT total_purchase_cost FROM `balance` ";
+$result31= mysqli_query($db, $query31);	
+$total_purchase_cost = mysqli_fetch_array($result31);
+$query32="SELECT remaining_balance FROM `balance` ";
+$result32= mysqli_query($db, $query32);	
+$remaining_balance = mysqli_fetch_array($result32);		
+$query40="SELECT Sum FROM `products` WHERE Product='Apple'";
+$result40 = mysqli_query($db, $query40);
+$applesum = mysqli_fetch_array($result40);
+$query41="SELECT Sum FROM `products` WHERE Product='Beer'";
+$result41= mysqli_query($db, $query41);
+$beersum = mysqli_fetch_array($result41);								
+$query42="SELECT Sum FROM `products` WHERE Product='Water'";
+$result42= mysqli_query($db, $query42);
+$watersum = mysqli_fetch_array($result42);
+$query43="SELECT Sum FROM `products` WHERE Product='Сheese'";
+$result43= mysqli_query($db, $query43);
+$cheesesum = mysqli_fetch_array($result43);		
+$total_purchase_cost=$applesum[0]+$beersum[0]+$watersum[0]+$cheesesum[0];
+$remaining_balance=$previous_balance[0]-$total_purchase_cost;
+$previous_balance[0]=$remaining_balance;				
+?>      
+           
+            
+                
+	 
+				
+					  <form action="index.php" method="post">
+						  <label for="rate">Choose a rate for apple:</label>
+						  <select name="apple" id="rate">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						  </select>
+  						 <input type="submit" value="Submit">
+					  </form>
+					  <b>Applerate:</b><div id="applerate"><?php echo$applerate[0]?></div>
+					  <form action="index.php" method="post">
+						  <label for="rate">Choose a rate for beer:</label>
+						  <select name="beer" id="rate">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						  </select>
+  						 <input type="submit" value="Submit">
+					  </form>
+					   <b>Beerrate:</b><div id="beerrate"><?php echo $beerrate[0]?></div>
+					  <form action="index.php" method="post">
+						  <label for="rate">Choose a rate for water:</label>
+						  <select name="water" id="rate">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						  </select>
+  						 <input type="submit" value="Submit">
+					  </form>
+					   <b>Waterrate:</b><div id="waterrate"><?php echo $waterrate[0]?></div>
+					  <form action="index.php" method="post">
+						  <label for="rate">Choose a rate for cheese:</label>
+						  <select name="cheese" id="rate">
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+							<option value="5">5</option>
+						  </select>
+						    <input type="submit" value="Submit">
+  						</form>
+						 <b>Cheeserate:</b><div id="cheeserate"><?php echo $cheeserate[0] ?></div>
+ <form action="index.php" method="POST">
+	  <p>Please select shiping option:</p>
+	  <input type="radio" id="pick_up" name="shiping" value="pick_up">
+	  <label for="pick_up">pick_up</label><br>
+	  <input type="radio" id="ups" name="shiping" value="ups">
+	  <label for="ups">ups</label><br>  
+	  <input type="submit" value="Submit">
+</form>
+
+
  
- <b>Previous_balance:</b><h4 id="prevb" ></h4><br>
- <b>Total_purchase_cost:</b><h4 class="totc"></h4><br>  
- <b>Remaining_balance:</b><h4 class="remb"></h4><br> 
+ <b>Previous_balance:</b><h4 class="prevb" ><?php echo $previous_balance[0]?></h4><br>
+ <b>Total_purchase_cost:</b><h4 class="totc"><?php echo $total_purchase_cost?></h4><br>  
+ <b>Remaining_balance:</b><h4 class="remb"><?php echo $remaining_balance[0]?></h4><br> 
 </div>
 	
         
     <script>
-	var applerate=document.getElementsById('applerate');
-	//applerate.value="<?php echo $middleapple?>";
+	/*var applerate=document.getElementById('applerate');
+	applerate.value = "<?php echo$applerate[0]?>";
+	var beerrate=document.getElementById('beerrate');
+	beerrate.value="<?php echo $beerrate[0]?>";
+	var waterrate=document.getElementById('waterrate');
+	waterrate.value="<?php echo $waterrate[0]?>";
+	var cheeserate=document.getElementById('cheeserate');
+	cheeserate.value="<?php echo $cheeserate[0]?>";*/
 	/*$(function() {
       $('form').submit(function(e) {
         var $form = $(this);
@@ -528,10 +604,12 @@ while ($num = mysqli_fetch_assoc ($result15)) {
         e.preventDefault(); 
       });
     });*/
-/*var totc=document.getElementsByClassName('totc');
-totb[0].value="<?php echo $total_purchase_cost?>"
+/*var prevb=document.getElementsByClassName('prevb');
+prevb[0].value = "<?php echo $previous_balance[0]?>"	
+var totb=document.getElementsByClassName('totc');
+totb[0].value="<?php echo $total_purchase_cost[0]?>"
 var remb=document.getElementsByClassName('remb');
-remb[0].value="<?php echo $remaining_balance?>"*/
+remb[0].value="<?php echo $remaining_balance[0]?>"*/
    </script>  
     </body>
 </html>				
