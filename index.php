@@ -7,6 +7,8 @@ ini_set('display_errors', 1);
     <head>
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
+		        <link rel="stylesheet" href="css/style.css"type="text/css"/>
+
         
         
        
@@ -17,23 +19,7 @@ ini_set('display_errors', 1);
 						 <br>  
 						  
 						 
-					<form action="index.php" method="POST">
-						<p>Please select your product:</p>
-						  <input type="radio" id="apple" name="product" value="apple">
-						  <label for="apple">Apple</label><br>
-						  
-						  <input type="radio" id="beer" name="product" value="beer">
-						  <label for="beer">Beer</label><br>
-						  
-						  <input type="radio" id="water" name="product" value="water">
-						  <label for="water">Water</label><br>
-						  
-						  <input type="radio" id="cheese" name="product" value="cheese">
-						  <label for="cheese">Cheese</label><br>
-						   <input type="submit" name="pay" value="Pay" />
-							<input type="submit" name="delete" value="Delete" />
-							<input type="submit" name="add" value="Add">
-						</form>
+					
   <?php
 interface Basket{
 		public function Add();
@@ -74,6 +60,8 @@ interface Basket{
 			
 			public function Pay()
 			{
+				$count=$this->_count;
+				
 			$db=new mysqli('localhost', 'root', '', "abc_hosting");
 	if(mysqli_connect_errno()){
 		printf("Error connect to DB:%S\n",mysqli_error($db));
@@ -82,7 +70,7 @@ interface Basket{
 $query2="SELECT Cost FROM `products` WHERE Product='Apple'";
 $result2 = mysqli_query($db, $query2);
 $appcost = mysqli_fetch_array($result2);	
-$fullapplecost=$appcost[0];
+$fullapplecost=$appcost[0]*$count;
 $query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
         $result21=mysqli_query($db, $query21);
 			}
@@ -99,6 +87,7 @@ $query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
 			
 			public function Pay()
 			{
+				$count=$this->_count;
 			$db=new mysqli('localhost', 'root', '', "abc_hosting");
 	if(mysqli_connect_errno()){
 		printf("Error connect to DB:%S\n",mysqli_error($db));
@@ -107,7 +96,7 @@ $query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
 $query3="SELECT Cost FROM `products` WHERE Product='Beer'";
 $result3 = mysqli_query($db, $query3);
 $beercost = mysqli_fetch_array($result3);	
-$fullbeercost=$beercost[0];
+$fullbeercost=$beercost[0]*$count;
 $query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
         $result22=mysqli_query($db, $query22);
 		
@@ -124,6 +113,7 @@ $query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
 			
 			public function Pay()
 			{
+				$count=$this->_count;
 			$db=new mysqli('localhost', 'root', '', "abc_hosting");
 	if(mysqli_connect_errno()){
 		printf("Error connect to DB:%S\n",mysqli_error($db));
@@ -132,7 +122,7 @@ $query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
 $query4="SELECT Cost FROM `products` WHERE Product='Water'";
 $result4 = mysqli_query($db, $query4);
 $watercost = mysqli_fetch_array($result4);	
-$fullwatercost=$watercost[0];
+$fullwatercost=$watercost[0]*$count;
 $query23="UPDATE `products` SET Sum = $fullwatercost WHERE Product = 'Water'";
         $result23=mysqli_query($db, $query23);			}
 			
@@ -146,6 +136,7 @@ $query23="UPDATE `products` SET Sum = $fullwatercost WHERE Product = 'Water'";
 			
 			public function Pay()
 			{
+				$count=$this->_count;
 			$db=new mysqli('localhost', 'root', '', "abc_hosting");
 	if(mysqli_connect_errno()){
 		printf("Error connect to DB:%S\n",mysqli_error($db));
@@ -154,62 +145,144 @@ $query23="UPDATE `products` SET Sum = $fullwatercost WHERE Product = 'Water'";
 $query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
 $result5 = mysqli_query($db, $query5);
 $cheesecost = mysqli_fetch_array($result5);	
-$fullcheesecost=$cheesecost[0];
+$fullcheesecost=$cheesecost[0]*$count;
 $query24="UPDATE `products` SET Sum = $fullcheesecost WHERE Product = 'Cheese'";
         $result24=mysqli_query($db, $query24);			}
 			
 		}
+		/*if(isset($_SESSION['views']))
+$_SESSION['views'] = $_SESSION['views']+ 1;
+else
+$_SESSION['views'] = 1;
+
+echo "views = ". $_SESSION['views'];
 /*$apple=new Apple();	
 $apple->add();
 $apple->add();	*/
 function Add1(){
-	$apple=new Apple();	
-		 echo $apple->Add(); 
-			}
-			function Delete1(){
-	$apple=new Apple();	
-		 echo $apple->Delete(); 
-			}
-			function Pay1(){
-	$apple=new Apple();	
-		 echo $apple->Pay(); 
-			}
-function Add2(){
-	$beer=new Beer();		
-		 echo $beer->Add(); 	
-			}
-			function Delete2(){
-	$beer=new Beer();	
-		 echo $beer->Delete(); 
-			}
-			function Pay2(){
-	$beer=new Beer();	
-		 echo $beer->Pay(); 
-			}
+$apple = NULL;
+if(isset($_SESSION['apples'])){
+$apple = $_SESSION["apples"];
+}
+else{
+$apple=new Apple(); $_SESSION["apples"] = $apple;
+}
+echo $apple->Add();
+}
+function Delete1(){
+$apple = NULL;
+if(isset($_SESSION['apples'])){
+$apple = $_SESSION["apples"];
+}
+else{
+$apple=new Apple(); $_SESSION["apples"] = $apple;
+}
+echo $apple->Delete();
+}
+function Pay1(){
+$apple = NULL;
+if(isset($_SESSION['apples'])){
+$apple = $_SESSION["apples"];
+}
+else{
+$apple=new Apple(); $_SESSION["apples"] = $apple;
+}
+echo $apple->Pay();
+}
+			
+			function Add2(){
+$beer = NULL;
+if(isset($_SESSION['beers'])){
+$beer = $_SESSION["beers"];
+}
+else{
+$beer=new Beer(); $_SESSION["beers"] = $beer;
+}
+echo $beer->Add();
+}
+function Delete2(){
+$beer = NULL;
+if(isset($_SESSION['beers'])){
+$beer = $_SESSION["beers"];
+}
+else{
+$beer=new Beer(); $_SESSION["beers"] = $beer;
+}
+echo $beer->Delete();
+}
+function Pay2(){
+$beer = NULL;
+if(isset($_SESSION['beers'])){
+$beer = $_SESSION["beers"];
+}
+else{
+$beer=new Beer(); $_SESSION["beers"] = $beer;
+}
+echo $beer->Pay();
+}
+			
 function Add3(){
-	$water=new Water();		
-		 echo $water->Add(); 	
-			}
-			function Delete3(){
-	$water=new Water();	
-		 echo $water->Delete(); 
-			}
-			function Pay3(){
-	$water=new Water();	
-		 echo $water->Pay(); 
-			}
+$water = NULL;
+if(isset($_SESSION['waters'])){
+$water = $_SESSION["waters"];
+}
+else{
+$water=new Water(); $_SESSION["waters"] = $water;
+}
+echo $water->Add();
+}			
+function Pay3(){
+$water = NULL;
+if(isset($_SESSION['waters'])){
+$water = $_SESSION["waters"];
+}
+else{
+$water=new Water(); $_SESSION["waters"] = $water;
+}
+echo $water->Pay();
+}		
+function Delete3(){
+$water = NULL;
+if(isset($_SESSION['waters'])){
+$water = $_SESSION["waters"];
+}
+else{
+$water=new Water(); $_SESSION["waters"] = $water;
+}
+echo $water->Delete();
+}		
+			
 function Add4(){
-	$cheese=new Cheese();		
-		 echo $cheese->Add(); 	
-			}
+$cheese = NULL;
+if(isset($_SESSION['cheeses'])){
+$cheese = $_SESSION["cheeses"];
+}
+else{
+$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
+}
+echo $cheese->Add();
+}						
 function Delete4(){
-	$cheese=new Cheese();	
-		 echo $cheese->Delete(); 
-			}
-			function Pay4(){
-	$cheese=new Cheese();	
-		 echo $cheese->Pay(); 
-			}		 			
+$cheese = NULL;
+if(isset($_SESSION['cheeses'])){
+$cheese = $_SESSION["cheeses"];
+}
+else{
+$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
+}
+echo $cheese->Delete();
+}				
+function Pay4(){
+$cheese = NULL;
+if(isset($_SESSION['cheeses'])){
+$cheese = $_SESSION["cheeses"];
+}
+else{
+$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
+}
+echo $cheese->Pay();
+}			
+					 			
 
 //--------------------------------------------------------------------------------------------------------------------------
 if(array_key_exists('add',$_POST)){
@@ -425,7 +498,7 @@ $waterrate = mysqli_fetch_array($result28);
 $query29="SELECT Rate FROM `products` WHERE Product='Сheese'";
 $result29= mysqli_query($db, $query29);
 $cheeserate = mysqli_fetch_array($result29);
-var_dump($cheeserate[0]);
+//var_dump($cheeserate[0]);
 $query30="SELECT Previous_balance FROM `balance` ";
 $result30 = mysqli_query($db, $query30);	
 $previous_balance = mysqli_fetch_array($result30);
@@ -448,11 +521,48 @@ $query43="SELECT Sum FROM `products` WHERE Product='Сheese'";
 $result43= mysqli_query($db, $query43);
 $cheesesum = mysqli_fetch_array($result43);		
 $total_purchase_cost=$applesum[0]+$beersum[0]+$watersum[0]+$cheesesum[0];
+if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
+	$ups=0.5;
+	$total_purchase_cost=$total_purchase_cost+$ups;
+}
 $remaining_balance=$previous_balance[0]-$total_purchase_cost;
 $previous_balance[0]=$remaining_balance;				
-?>      
-           
-            
+?> 
+		
+         <form action="index.php" method="POST">
+						<p><b>Please select your product:</b></p>
+						  <input type="radio" id="apple" name="product" value="apple">
+						  <label for="apple">Apple</label><br>
+						  
+						  <input type="radio" id="beer" name="product" value="beer">
+						  <label for="beer">Beer</label><br>
+						  
+						  <input type="radio" id="water" name="product" value="water">
+						  <label for="water">Water</label><br>
+						  
+						  <input type="radio" id="cheese" name="product" value="cheese">
+						  <label for="cheese">Cheese</label><br>
+						   <input type="submit" name="pay" value="Pay" />
+							<input type="submit" name="delete" value="Delete" />
+							<input type="submit" name="add" value="Add">
+						</form>  
+						<table style="width:30%">
+			  <tr>
+				<th>Product</th>
+				<th>Count</th>
+				
+			  </tr>
+			  <tr>
+				<td>Jill</td>
+				<td>Smith</td>
+				
+			  </tr>
+			  <tr>
+				<td>Eve</td>
+				<td>Jackson</td>
+				
+			  </tr>
+			</table>
                 
 	 
 				
