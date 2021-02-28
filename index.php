@@ -16,7 +16,7 @@ ini_set('display_errors', 1);
     <body>
 		<div class="middle">
 		
-						 <br>  
+						
 						  
 						 
 					
@@ -528,8 +528,10 @@ if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']==
 $remaining_balance=$previous_balance[0]-$total_purchase_cost;
 $previous_balance[0]=$remaining_balance;				
 ?> 
-		
-         <form action="index.php" method="POST">
+	<table style="width:30%">
+			  <tr>
+				<td>
+					<form action="index.php" method="POST">
 						<p><b>Please select your product:</b></p>
 						  <input type="radio" id="apple" name="product" value="apple">
 						  <label for="apple">Apple</label><br>
@@ -546,28 +548,13 @@ $previous_balance[0]=$remaining_balance;
 							<input type="submit" name="delete" value="Delete" />
 							<input type="submit" name="add" value="Add">
 						</form>  
-						<table style="width:30%">
-			  <tr>
-				<th>Product</th>
-				<th>Count</th>
-				
-			  </tr>
-			  <tr>
-				<td>Jill</td>
-				<td>Smith</td>
-				
-			  </tr>
-			  <tr>
-				<td>Eve</td>
-				<td>Jackson</td>
-				
-			  </tr>
-			</table>
+					</td>	
+						
                 
 	 
-				
+					<td>
 					  <form action="index.php" method="post">
-						  <label for="rate">Choose a rate for apple:</label>
+						 
 						  <select name="apple" id="rate">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -577,9 +564,9 @@ $previous_balance[0]=$remaining_balance;
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
-					  <b>Applerate:</b><div id="applerate"><?php echo$applerate[0]?></div>
+					 
 					  <form action="index.php" method="post">
-						  <label for="rate">Choose a rate for beer:</label>
+						  
 						  <select name="beer" id="rate">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -589,9 +576,9 @@ $previous_balance[0]=$remaining_balance;
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
-					   <b>Beerrate:</b><div id="beerrate"><?php echo $beerrate[0]?></div>
+					   
 					  <form action="index.php" method="post">
-						  <label for="rate">Choose a rate for water:</label>
+						 
 						  <select name="water" id="rate">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -601,9 +588,9 @@ $previous_balance[0]=$remaining_balance;
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
-					   <b>Waterrate:</b><div id="waterrate"><?php echo $waterrate[0]?></div>
+					  
 					  <form action="index.php" method="post">
-						  <label for="rate">Choose a rate for cheese:</label>
+						 
 						  <select name="cheese" id="rate">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -613,7 +600,16 @@ $previous_balance[0]=$remaining_balance;
 						  </select>
 						    <input type="submit" value="Submit">
   						</form>
-						 <b>Cheeserate:</b><div id="cheeserate"><?php echo $cheeserate[0] ?></div>
+						 
+						 </td>
+						 <td>
+						 <div><b>Applerate:</b><div style=" display:inline-block"; class="applerate"><?php echo$applerate[0]?></div></div>
+						  <div><b>Beerrate:</b><div style="display:inline-block"; class="beerrate"><?php echo $beerrate[0]?></div></div>
+						  <div><b>Waterrate:</b><div style="display:inline-block"; class="waterrate"><?php echo $waterrate[0]?></div></div>
+						  <div><b>Cheeserate:</b><div style="display:inline-block"; class="cheeserate"><?php echo $cheeserate[0] ?></div></div>
+						 </td>
+					  </tr>
+			</table>
  <form action="index.php" method="POST">
 	  <p>Please select shiping option:</p>
 	  <input type="radio" id="pick_up" name="shiping" value="pick_up">
@@ -625,9 +621,9 @@ $previous_balance[0]=$remaining_balance;
 
 
  
- <b>Previous_balance:</b><h4 class="prevb" ><?php echo $previous_balance[0]?></h4><br>
- <b>Total_purchase_cost:</b><h4 class="totc"><?php echo $total_purchase_cost?></h4><br>  
- <b>Remaining_balance:</b><h4 class="remb"><?php echo $remaining_balance[0]?></h4><br> 
+ <div><b>Previous_balance:</b><h4 style=" display:inline-block"; ><?php echo $previous_balance[0]?></h4></div>
+ <div><b>Total_purchase_cost:</b><h4 style=" display:inline-block";class="totc"><?php echo $total_purchase_cost?></h4></div>  
+ <div><b>Remaining_balance:</b><h4 style=" display:inline-block"; class="remb"><?php echo $remaining_balance[0]?></h4></div> 
 </div>
 	
         
