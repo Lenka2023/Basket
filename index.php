@@ -3,17 +3,27 @@ error_reporting(-1);
 ini_set('display_errors', 1);
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en-US">
     <head>
+		<title>HTML5 Local Storage Project</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="rating" content="General">
+<meta name="expires" content="never">
+<meta name="language" content="English, EN">
+<meta name="description" content="Shopping cart project with HTML5 and JavaScript">
+<meta name="keywords" content="HTML5,CSS,JavaScript, html5 session storage, html5 local storage">
+<meta name="author" content="dcwebmakers.com">
+<script src="Storage.js"></script>
+<link rel="stylesheet" href="StorageStyle.css">
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
 		        <link rel="stylesheet" href="css/style.css"type="text/css"/>
-
+				
         
         
        
 	</head>
-    <body>
+    <body onload="doShowAll()">
 		<div class="middle">
 		
 						
@@ -34,11 +44,8 @@ interface Basket{
 			
 	public function Add()
 			{
-			//var_dump($count);
-			
-			$this->_count=$this->_count+1;
-			 var_dump($this->_count);
-			
+				$this->_count=$this->_count+1;
+				 var_dump($this->_count);
 			}
 				
 			
@@ -47,32 +54,41 @@ interface Basket{
 			{
 				$this->_count=$this->_count-1;
 				var_dump($this->_count);
-			
-
-	}
+			}
 	}
 		  class Apple extends Product{
 			function	__construct()
     {
-	$this->_count = 0;
+		$this->_count = 0;
     }
 			
 			
 			public function Pay()
 			{
 				$count=$this->_count;
-				
-			$db=new mysqli('localhost', 'root', '', "abc_hosting");
-	if(mysqli_connect_errno()){
-		printf("Error connect to DB:%S\n",mysqli_error($db));
-		exit();
-								}
-$query2="SELECT Cost FROM `products` WHERE Product='Apple'";
-$result2 = mysqli_query($db, $query2);
-$appcost = mysqli_fetch_array($result2);	
-$fullapplecost=$appcost[0]*$count;
-$query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
-        $result21=mysqli_query($db, $query21);
+				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+				if(mysqli_connect_errno()){
+					printf("Error connect to DB:%S\n",mysqli_error($db));
+					exit();
+											}
+				$query30="SELECT Previous_balance FROM `balance` ";
+				$result30 = mysqli_query($db, $query30);	
+				$previous_balance = mysqli_fetch_array($result30);							
+				$query2="SELECT Cost FROM `products` WHERE Product='Apple'";
+				$result2 = mysqli_query($db, $query2);
+				$appcost = mysqli_fetch_array($result2);	
+				$total_purchase_cost=$appcost[0]*$count;
+				if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
+					$ups=0.5;
+					$total_purchase_cost=$total_purchase_cost+$ups;
+				}
+				$remaining_balance=$previous_balance[0]-$total_purchase_cost;
+				$query60="UPDATE `balance` SET Previous_balance = $remaining_balance ";
+				$result60=mysqli_query($db, $query60);
+				$query65="UPDATE `balance` SET remaining_balance = $remaining_balance ";
+				$result65=mysqli_query($db, $query65);		
+				$query21="UPDATE `balance` SET total_purchase_cost = $total_purchase_cost ";
+				$result21=mysqli_query($db, $query21);
 			}
 			
 		
@@ -80,7 +96,7 @@ $query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
 		 class Beer extends Product{
 			function	__construct()
     {
-	$this->_count = 0;
+		$this->_count = 0;
     }	
 			
 			
@@ -88,18 +104,30 @@ $query21="UPDATE `products` SET Sum = $fullapplecost WHERE Product = 'Apple'";
 			public function Pay()
 			{
 				$count=$this->_count;
-			$db=new mysqli('localhost', 'root', '', "abc_hosting");
-	if(mysqli_connect_errno()){
-		printf("Error connect to DB:%S\n",mysqli_error($db));
-		exit();
-								}
-$query3="SELECT Cost FROM `products` WHERE Product='Beer'";
-$result3 = mysqli_query($db, $query3);
-$beercost = mysqli_fetch_array($result3);	
-$fullbeercost=$beercost[0]*$count;
-$query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
-        $result22=mysqli_query($db, $query22);
-		
+				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+				if(mysqli_connect_errno()){
+					printf("Error connect to DB:%S\n",mysqli_error($db));
+					exit();
+											}
+				$query30="SELECT Previous_balance FROM `balance` ";
+				$result30 = mysqli_query($db, $query30);	
+				$previous_balance = mysqli_fetch_array($result30);								
+				$query3="SELECT Cost FROM `products` WHERE Product='Beer'";
+				$result3 = mysqli_query($db, $query3);
+				$beercost = mysqli_fetch_array($result3);	
+				$total_purchase_cost=$beercost[0]*$count;
+				if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
+					$ups=0.5;
+					$total_purchase_cost=$total_purchase_cost+$ups;
+				}
+				$remaining_balance=$previous_balance[0]-$total_purchase_cost;
+				$query60="UPDATE `balance` SET Previous_balance = $remaining_balance ";
+				$result60=mysqli_query($db, $query60);
+				$query65="UPDATE `balance` SET remaining_balance = $remaining_balance ";
+				$result65=mysqli_query($db, $query65);		
+				$query21="UPDATE `balance` SET total_purchase_cost = $total_purchase_cost ";
+				$result21=mysqli_query($db, $query21);
+						
 			}
 			
 			
@@ -108,219 +136,234 @@ $query22="UPDATE `products` SET Sum = $fullbeercost WHERE Product = 'Beer'";
 		 class Water extends Product{
 			function	__construct()
     {
-	$this->_count = 0;
+		$this->_count = 0;
     }
 			
 			public function Pay()
 			{
 				$count=$this->_count;
-			$db=new mysqli('localhost', 'root', '', "abc_hosting");
-	if(mysqli_connect_errno()){
-		printf("Error connect to DB:%S\n",mysqli_error($db));
-		exit();
-								}
-$query4="SELECT Cost FROM `products` WHERE Product='Water'";
-$result4 = mysqli_query($db, $query4);
-$watercost = mysqli_fetch_array($result4);	
-$fullwatercost=$watercost[0]*$count;
-$query23="UPDATE `products` SET Sum = $fullwatercost WHERE Product = 'Water'";
-        $result23=mysqli_query($db, $query23);			}
+				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+				if(mysqli_connect_errno()){
+					printf("Error connect to DB:%S\n",mysqli_error($db));
+					exit();
+											}
+				$query30="SELECT Previous_balance FROM `balance` ";
+				$result30 = mysqli_query($db, $query30);	
+				$previous_balance = mysqli_fetch_array($result30);								
+				$query4="SELECT Cost FROM `products` WHERE Product='Water'";
+				$result4 = mysqli_query($db, $query4);
+				$watercost = mysqli_fetch_array($result4);	
+				$total_purchase_cost=$watercost[0]*$count;
+				if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
+					$ups=0.5;
+					$total_purchase_cost=$total_purchase_cost+$ups;
+				}
+				$remaining_balance=$previous_balance[0]-$total_purchase_cost;
+				$query60="UPDATE `balance` SET Previous_balance = $remaining_balance ";
+				$result60=mysqli_query($db, $query60);
+				$query65="UPDATE `balance` SET remaining_balance = $remaining_balance ";
+				$result65=mysqli_query($db, $query65);		
+				$query21="UPDATE `balance` SET total_purchase_cost = $total_purchase_cost ";
+				$result21=mysqli_query($db, $query21);		}
 			
 			
 		}
 		 class Cheese extends Product{
 			function	__construct()
     {
-	$this->_count = 0;
+		$this->_count = 0;
     }	
 			
 			public function Pay()
 			{
 				$count=$this->_count;
-			$db=new mysqli('localhost', 'root', '', "abc_hosting");
-	if(mysqli_connect_errno()){
-		printf("Error connect to DB:%S\n",mysqli_error($db));
-		exit();
-								}
-$query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
-$result5 = mysqli_query($db, $query5);
-$cheesecost = mysqli_fetch_array($result5);	
-$fullcheesecost=$cheesecost[0]*$count;
-$query24="UPDATE `products` SET Sum = $fullcheesecost WHERE Product = 'Cheese'";
-        $result24=mysqli_query($db, $query24);			}
+				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+				if(mysqli_connect_errno()){
+					printf("Error connect to DB:%S\n",mysqli_error($db));
+					exit();
+											}
+				$query30="SELECT Previous_balance FROM `balance` ";
+				$result30 = mysqli_query($db, $query30);	
+				$previous_balance = mysqli_fetch_array($result30);								
+				$query5="SELECT Cost FROM `products` WHERE Product='Сheese'";
+				$result5 = mysqli_query($db, $query5);
+				$cheesecost = mysqli_fetch_array($result5);	
+				$total_purchase_cost=$cheesecost[0]*$count;
+				if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
+					$ups=0.5;
+					$total_purchase_cost=$total_purchase_cost+$ups;
+				}
+				$remaining_balance=$previous_balance[0]-$total_purchase_cost;
+				$query60="UPDATE `balance` SET Previous_balance = $remaining_balance ";
+				$result60=mysqli_query($db, $query60);
+				$query65="UPDATE `balance` SET remaining_balance = $remaining_balance ";
+				$result65=mysqli_query($db, $query65);		
+				$query21="UPDATE `balance` SET total_purchase_cost = $total_purchase_cost ";
+				$result21=mysqli_query($db, $query21);			}
 			
 		}
-		/*if(isset($_SESSION['views']))
-$_SESSION['views'] = $_SESSION['views']+ 1;
-else
-$_SESSION['views'] = 1;
-
-echo "views = ". $_SESSION['views'];
-/*$apple=new Apple();	
-$apple->add();
-$apple->add();	*/
+		
 function Add1(){
-$apple = NULL;
-if(isset($_SESSION['apples'])){
-$apple = $_SESSION["apples"];
+	$apple = NULL;
+	if(isset($_SESSION['apples'])){
+		$apple = $_SESSION["apples"];
 }
-else{
-$apple=new Apple(); $_SESSION["apples"] = $apple;
-}
-echo $apple->Add();
-}
+	else{
+		$apple=new Apple(); $_SESSION["apples"] = $apple;
+	}
+	echo $apple->Add();
+	}
 function Delete1(){
-$apple = NULL;
-if(isset($_SESSION['apples'])){
-$apple = $_SESSION["apples"];
-}
-else{
-$apple=new Apple(); $_SESSION["apples"] = $apple;
-}
-echo $apple->Delete();
+	$apple = NULL;
+	if(isset($_SESSION['apples'])){
+		$apple = $_SESSION["apples"];
+	}
+	else{
+		$apple=new Apple(); $_SESSION["apples"] = $apple;
+	}
+	echo $apple->Delete();
 }
 function Pay1(){
-$apple = NULL;
-if(isset($_SESSION['apples'])){
-$apple = $_SESSION["apples"];
-}
-else{
-$apple=new Apple(); $_SESSION["apples"] = $apple;
-}
-echo $apple->Pay();
+	$apple = NULL;
+	if(isset($_SESSION['apples'])){
+		$apple = $_SESSION["apples"];
+	}
+	else{
+		$apple=new Apple(); $_SESSION["apples"] = $apple;
+	}
+	echo $apple->Pay();
 }
 			
-			function Add2(){
-$beer = NULL;
-if(isset($_SESSION['beers'])){
-$beer = $_SESSION["beers"];
-}
-else{
-$beer=new Beer(); $_SESSION["beers"] = $beer;
-}
-echo $beer->Add();
+function Add2(){
+	$beer = NULL;
+	if(isset($_SESSION['beers'])){
+		$beer = $_SESSION["beers"];
+	}
+	else{
+		$beer=new Beer(); $_SESSION["beers"] = $beer;
+	}
+	echo $beer->Add();
 }
 function Delete2(){
-$beer = NULL;
-if(isset($_SESSION['beers'])){
-$beer = $_SESSION["beers"];
-}
-else{
-$beer=new Beer(); $_SESSION["beers"] = $beer;
-}
-echo $beer->Delete();
+	$beer = NULL;
+	if(isset($_SESSION['beers'])){
+		$beer = $_SESSION["beers"];
+	}
+	else{
+		$beer=new Beer(); $_SESSION["beers"] = $beer;
+	}
+	echo $beer->Delete();
 }
 function Pay2(){
-$beer = NULL;
-if(isset($_SESSION['beers'])){
-$beer = $_SESSION["beers"];
-}
-else{
-$beer=new Beer(); $_SESSION["beers"] = $beer;
-}
-echo $beer->Pay();
+	$beer = NULL;
+	if(isset($_SESSION['beers'])){
+		$beer = $_SESSION["beers"];
+	}
+	else{
+		$beer=new Beer(); $_SESSION["beers"] = $beer;
+	}
+	echo $beer->Pay();
 }
 			
 function Add3(){
-$water = NULL;
-if(isset($_SESSION['waters'])){
-$water = $_SESSION["waters"];
-}
-else{
-$water=new Water(); $_SESSION["waters"] = $water;
-}
-echo $water->Add();
+	$water = NULL;
+	if(isset($_SESSION['waters'])){
+		$water = $_SESSION["waters"];
+	}
+	else{
+		$water=new Water(); $_SESSION["waters"] = $water;
+	}
+	echo $water->Add();
 }			
 function Pay3(){
-$water = NULL;
-if(isset($_SESSION['waters'])){
-$water = $_SESSION["waters"];
-}
-else{
-$water=new Water(); $_SESSION["waters"] = $water;
-}
-echo $water->Pay();
+	$water = NULL;
+	if(isset($_SESSION['waters'])){
+		$water = $_SESSION["waters"];
+	}
+	else{
+		$water=new Water(); $_SESSION["waters"] = $water;
+	}
+	echo $water->Pay();
 }		
 function Delete3(){
-$water = NULL;
-if(isset($_SESSION['waters'])){
-$water = $_SESSION["waters"];
-}
-else{
-$water=new Water(); $_SESSION["waters"] = $water;
-}
-echo $water->Delete();
+	$water = NULL;
+	if(isset($_SESSION['waters'])){
+		$water = $_SESSION["waters"];
+	}
+	else{
+		$water=new Water(); $_SESSION["waters"] = $water;
+	}
+	echo $water->Delete();
 }		
 			
 function Add4(){
-$cheese = NULL;
-if(isset($_SESSION['cheeses'])){
-$cheese = $_SESSION["cheeses"];
-}
-else{
-$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
-}
-echo $cheese->Add();
-}						
-function Delete4(){
-$cheese = NULL;
-if(isset($_SESSION['cheeses'])){
-$cheese = $_SESSION["cheeses"];
-}
-else{
-$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
-}
-echo $cheese->Delete();
+	$cheese = NULL;
+	if(isset($_SESSION['cheeses'])){
+		$cheese = $_SESSION["cheeses"];
+	}
+	else{
+		$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
+	}
+	echo $cheese->Add();
+	}						
+	function Delete4(){
+		$cheese = NULL;
+		if(isset($_SESSION['cheeses'])){
+			$cheese = $_SESSION["cheeses"];
+		}
+		else{
+			$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
+		}
+		echo $cheese->Delete();
 }				
 function Pay4(){
-$cheese = NULL;
-if(isset($_SESSION['cheeses'])){
-$cheese = $_SESSION["cheeses"];
-}
-else{
-$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
-}
-echo $cheese->Pay();
+	$cheese = NULL;
+	if(isset($_SESSION['cheeses'])){
+		$cheese = $_SESSION["cheeses"];
+	}
+	else{
+		$cheese=new Cheese(); $_SESSION["cheeses"] = $cheese;
+	}
+	echo $cheese->Pay();
 }			
 					 			
 
 //--------------------------------------------------------------------------------------------------------------------------
 if(array_key_exists('add',$_POST)){
-	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
-	var_dump("add Cheese");
-	Add4();
+		if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
+			var_dump("add Cheese");
+			Add4();
 			}
-	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
-	var_dump("add Water");
-	Add3();
-			}
-	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
-	var_dump("add Beer");
-	Add2();
-			}
-if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
-	Add1();
-	var_dump("add Apple");	
-	
-			}
+		if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
+			var_dump("add Water");
+			Add3();
+				}
+		if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
+			var_dump("add Beer");
+			Add2();
+				}
+	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
+		Add1();
+		var_dump("add Apple");	
+						}
 }			
 //--------------------------------------------------------------------------------------------------------------------------
 if(array_key_exists('delete',$_POST)){
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
-	var_dump("delete Cheese");
-	Delete4();
+		var_dump("delete Cheese");
+		Delete4();
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
-	var_dump("delete Water");
-	Delete3();
+		var_dump("delete Water");
+		Delete3();
 			}	
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
-	var_dump("delete Beer");
-	Delete2();
+		var_dump("delete Beer");
+		Delete2();
 			}	
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
-	var_dump("delete Apple");	
-	Delete1();
+		var_dump("delete Apple");	
+		Delete1();
 			}	
 			}	 
 //--------------------------------------------------------------------------------------------------------------------------
@@ -498,40 +541,17 @@ $waterrate = mysqli_fetch_array($result28);
 $query29="SELECT Rate FROM `products` WHERE Product='Сheese'";
 $result29= mysqli_query($db, $query29);
 $cheeserate = mysqli_fetch_array($result29);
-//var_dump($cheeserate[0]);
 $query30="SELECT Previous_balance FROM `balance` ";
 $result30 = mysqli_query($db, $query30);	
 $previous_balance = mysqli_fetch_array($result30);
-//$query31="SELECT total_purchase_cost FROM `balance` ";
-//$result31= mysqli_query($db, $query31);	
-//$total_purchase_cost = mysqli_fetch_array($result31);
-//$query32="SELECT remaining_balance FROM `balance` ";
-//$result32= mysqli_query($db, $query32);	
-//$remaining_balance = mysqli_fetch_array($result32);		
-$query40="SELECT Sum FROM `products` WHERE Product='Apple'";
-$result40 = mysqli_query($db, $query40);
-$applesum = mysqli_fetch_array($result40);
-$query41="SELECT Sum FROM `products` WHERE Product='Beer'";
-$result41= mysqli_query($db, $query41);
-$beersum = mysqli_fetch_array($result41);								
-$query42="SELECT Sum FROM `products` WHERE Product='Water'";
-$result42= mysqli_query($db, $query42);
-$watersum = mysqli_fetch_array($result42);
-$query43="SELECT Sum FROM `products` WHERE Product='Сheese'";
-$result43= mysqli_query($db, $query43);
-$cheesesum = mysqli_fetch_array($result43);		
-$total_purchase_cost=$applesum[0]+$beersum[0]+$watersum[0]+$cheesesum[0];
-if((isset($_POST['shiping']))&&(!empty($_POST['shiping']))&&($_POST['shiping']=='ups')){
-	$ups=0.5;
-	$total_purchase_cost=$total_purchase_cost+$ups;
-}
-$remaining_balance=$previous_balance[0]-$total_purchase_cost;
-$previous_balance[0]=$remaining_balance;				
-?> 
-	<table style="width:30%">
-			  <tr>
-				<td>
-					<form action="index.php" method="POST">
+$query31="SELECT total_purchase_cost FROM `balance` ";
+$result31= mysqli_query($db, $query31);	
+$total_purchase_cost = mysqli_fetch_array($result31);
+$query32="SELECT remaining_balance FROM `balance` ";
+$result32= mysqli_query($db, $query32);	
+$remaining_balance = mysqli_fetch_array($result32);		
+?>  
+					<form name="ShoppingList" action="index.php" method="POST">
 						<p><b>Please select your product:</b></p>
 						  <input type="radio" id="apple" name="product" value="apple">
 						  <label for="apple">Apple</label><br>
@@ -544,17 +564,21 @@ $previous_balance[0]=$remaining_balance;
 						  
 						  <input type="radio" id="cheese" name="product" value="cheese">
 						  <label for="cheese">Cheese</label><br>
-						   <input type="submit" name="pay" value="Pay" />
-							<input type="submit" name="delete" value="Delete" />
-							<input type="submit" name="add" value="Add">
+						   <input type="submit" name="pay"  value="Pay" />
+							<input type="submit" name="delete" onclick="RemoveItem()"value="Delete" />
+							<input type="submit" name="add" onclick="SaveItem()" value="Add">
+							 <div id="items_table">
+								<h3>Shopping List</h3>
+								<table id="list"></table>
+								<p>
+									<label><input type=button value="Clear" onclick="ClearAll()">
+										<i>* Delete all items</i></label>
+								</p>
+							</div>
 						</form>  
-					</td>	
-						
-                
-	 
-					<td>
+					
 					  <form action="index.php" method="post">
-						 
+						  <label for="rate">Choose a rate for apple:</label>
 						  <select name="apple" id="rate">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -564,9 +588,9 @@ $previous_balance[0]=$remaining_balance;
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
-					 
+						 <div><b>Applerate:</b><div style=" display:inline-block"; class="applerate"><?php echo$applerate[0]?></div></div>
 					  <form action="index.php" method="post">
-						  
+						  <label for="rate">Choose a rate for beer:</label>
 						  <select name="beer" id="rate">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -576,9 +600,9 @@ $previous_balance[0]=$remaining_balance;
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
-					   
+						  <div><b>Beerrate:</b><div style="display:inline-block"; class="beerrate"><?php echo $beerrate[0]?></div></div>
 					  <form action="index.php" method="post">
-						 
+						  <label for="rate">Choose a rate for water:</label>
 						  <select name="water" id="rate">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -588,9 +612,9 @@ $previous_balance[0]=$remaining_balance;
 						  </select>
   						 <input type="submit" value="Submit">
 					  </form>
-					  
+						  <div><b>Waterrate:</b><div style="display:inline-block"; class="waterrate"><?php echo $waterrate[0]?></div></div>
 					  <form action="index.php" method="post">
-						 
+						  <label for="rate">Choose a rate for cheese:</label>
 						  <select name="cheese" id="rate">
 							<option value="1">1</option>
 							<option value="2">2</option>
@@ -600,64 +624,93 @@ $previous_balance[0]=$remaining_balance;
 						  </select>
 						    <input type="submit" value="Submit">
   						</form>
-						 
-						 </td>
-						 <td>
-						 <div><b>Applerate:</b><div style=" display:inline-block"; class="applerate"><?php echo$applerate[0]?></div></div>
-						  <div><b>Beerrate:</b><div style="display:inline-block"; class="beerrate"><?php echo $beerrate[0]?></div></div>
-						  <div><b>Waterrate:</b><div style="display:inline-block"; class="waterrate"><?php echo $waterrate[0]?></div></div>
-						  <div><b>Cheeserate:</b><div style="display:inline-block"; class="cheeserate"><?php echo $cheeserate[0] ?></div></div>
-						 </td>
-					  </tr>
-			</table>
- <form action="index.php" method="POST">
-	  <p>Please select shiping option:</p>
-	  <input type="radio" id="pick_up" name="shiping" value="pick_up">
-	  <label for="pick_up">pick_up</label><br>
-	  <input type="radio" id="ups" name="shiping" value="ups">
-	  <label for="ups">ups</label><br>  
-	  <input type="submit" value="Submit">
-</form>
+							  <div><b>Cheeserate:</b><div style="display:inline-block"; class="cheeserate"><?php echo $cheeserate[0] ?></div></div>
+			
+						 <form action="index.php" method="POST">
+							  <p>Please select shiping option:</p>
+							  <input type="radio" id="pick_up" name="shiping" value="pick_up">
+							  <label for="pick_up">pick_up</label><br>
+							  <input type="radio" id="ups" name="shiping" value="ups">
+							  <label for="ups">ups</label><br>  
+							  <input type="submit" value="Submit">
+						</form>
 
 
  
  <div><b>Previous_balance:</b><h4 style=" display:inline-block"; ><?php echo $previous_balance[0]?></h4></div>
- <div><b>Total_purchase_cost:</b><h4 style=" display:inline-block";class="totc"><?php echo $total_purchase_cost?></h4></div>  
+ <div><b>Total_purchase_cost:</b><h4 style=" display:inline-block";class="totc"><?php echo $total_purchase_cost[0]?></h4></div>  
  <div><b>Remaining_balance:</b><h4 style=" display:inline-block"; class="remb"><?php echo $remaining_balance[0]?></h4></div> 
 </div>
 	
         
     <script>
-	/*var applerate=document.getElementById('applerate');
-	applerate.value = "<?php echo$applerate[0]?>";
-	var beerrate=document.getElementById('beerrate');
-	beerrate.value="<?php echo $beerrate[0]?>";
-	var waterrate=document.getElementById('waterrate');
-	waterrate.value="<?php echo $waterrate[0]?>";
-	var cheeserate=document.getElementById('cheeserate');
-	cheeserate.value="<?php echo $cheeserate[0]?>";*/
-	/*$(function() {
-      $('form').submit(function(e) {
-        var $form = $(this);
-        $.ajax({
-          type: $form.attr('POST'),
-          url: $form.attr('index.php'),
-          data: $form.serialize()
-        }).done(function() {
-          console.log('success');
-        }).fail(function() {
-          console.log('fail');
-        });
-        //отмена действия по умолчанию для кнопки submit
-        e.preventDefault(); 
-      });
-    });*/
-/*var prevb=document.getElementsByClassName('prevb');
-prevb[0].value = "<?php echo $previous_balance[0]?>"	
-var totb=document.getElementsByClassName('totc');
-totb[0].value="<?php echo $total_purchase_cost[0]?>"
-var remb=document.getElementsByClassName('remb');
-remb[0].value="<?php echo $remaining_balance[0]?>"*/
+	//add new key=>value to the HTML5 storage
+function SaveItem() {
+			
+	var name = document.forms.ShoppingList.product.value;
+	var data = 1;
+	localStorage.setItem(name, data);
+	doShowAll();
+	
+}
+//------------------------------------------------------------------------------
+
+//-------------------------------------------------------------------------
+//delete an existing key=>value from the HTML5 storage
+function RemoveItem() {
+	var name = document.forms.ShoppingList.product.value;
+	document.forms.ShoppingList.data.value = localStorage.removeItem(name);
+	doShowAll();
+}
+//-------------------------------------------------------------------------------------
+//restart the local storage
+function ClearAll() {
+	localStorage.clear();
+	doShowAll();
+}
+//--------------------------------------------------------------------------------------
+// dynamically populate the table with shopping list items
+//below step can be done via PHP and AJAX too. 
+function doShowAll() {
+	if (CheckBrowser()) {
+		var key = "";
+		var list = "<tr><th>Item</th><th>Value</th></tr>\n";
+		var i = 0;
+		//for more advance feature, you can set cap on max items in the cart
+		for (i = 0; i <= localStorage.length-1; i++) {
+			key = localStorage.key(i);
+			list += "<tr><td>" + key + "</td>\n<td>"
+					+ localStorage.getItem(key) + "</td></tr>\n";
+		}
+		//if no item exists in the cart
+		if (list == "<tr><th>Item</th><th>Value</th></tr>\n") {
+			list += "<tr><td><i>empty</i></td>\n<td><i>empty</i></td></tr>\n";
+		}
+		//bind the data to html table
+		//you can use jQuery too....
+		document.getElementById('list').innerHTML = list;
+	} else {
+		alert('Cannot save shopping list as your browser does not support HTML 5');
+	}
+}
+
+/*
+ =====> Checking the browser support
+ //this step may not be required as most of modern browsers do support HTML5
+ */
+ //below function may be redundant
+function CheckBrowser() {
+	if ('localStorage' in window && window['localStorage'] !== null) {
+		// we can use localStorage object to store data
+		return true;
+	} else {
+			return false;
+	}
+}
+//-------------------------------------------------
+/*
+You can extend this script by inserting data to database or adding payment processing API to shopping cart..
+*/
    </script>  
     </body>
 </html>				
