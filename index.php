@@ -13,7 +13,6 @@ ini_set('display_errors', 1);
 <meta name="description" content="Shopping cart project with HTML5 and JavaScript">
 <meta name="keywords" content="HTML5,CSS,JavaScript, html5 session storage, html5 local storage">
 <meta name="author" content="dcwebmakers.com">
-<script src="Storage.js"></script>
 <link rel="stylesheet" href="StorageStyle.css">
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
         <script type="text/javascript" src="js/jquery-1.12.2.min.js"></script>
@@ -36,7 +35,7 @@ interface Basket{
 		public function Delete();
 		public function Pay();
 	}
-	abstract class Product{
+	abstract class Product  {
 	protected	$_count;
 	
 	
@@ -66,7 +65,8 @@ interface Basket{
 			public function Pay()
 			{
 				$count=$this->_count;
-				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+        $db=new mysqli('mysql.zzz.com.ua', 'Lenka2023','Lenka20231', 'lenka2023');
+
 				if(mysqli_connect_errno()){
 					printf("Error connect to DB:%S\n",mysqli_error($db));
 					exit();
@@ -104,7 +104,8 @@ interface Basket{
 			public function Pay()
 			{
 				$count=$this->_count;
-				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+				$db=new mysqli('mysql.zzz.com.ua', 'Lenka2023','Lenka20231', 'lenka2023');
+
 				if(mysqli_connect_errno()){
 					printf("Error connect to DB:%S\n",mysqli_error($db));
 					exit();
@@ -142,7 +143,8 @@ interface Basket{
 			public function Pay()
 			{
 				$count=$this->_count;
-				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+        $db=new mysqli('mysql.zzz.com.ua', 'Lenka2023','Lenka20231', 'lenka2023');
+
 				if(mysqli_connect_errno()){
 					printf("Error connect to DB:%S\n",mysqli_error($db));
 					exit();
@@ -177,7 +179,8 @@ interface Basket{
 			public function Pay()
 			{
 				$count=$this->_count;
-				$db=new mysqli('localhost', 'root', '', "abc_hosting");
+        $db=new mysqli('mysql.zzz.com.ua', 'Lenka2023','Lenka20231', 'lenka2023');
+
 				if(mysqli_connect_errno()){
 					printf("Error connect to DB:%S\n",mysqli_error($db));
 					exit();
@@ -398,7 +401,7 @@ if(array_key_exists('delete',$_POST)){
 			}
 }				
 //--------------------------------------------------------------------------------------------------------------------------
-$db=new mysqli('localhost', 'root', '', "abc_hosting");
+$db=new mysqli('mysql.zzz.com.ua', 'Lenka2023','Lenka20231', 'lenka2023');
 	if(mysqli_connect_errno()){
 		printf("Error connect to DB:%S\n",mysqli_error($db));
 		exit();
@@ -524,7 +527,8 @@ while ($num = mysqli_fetch_assoc ($result15)) {
 }}}
 //--------------------------------------------------------------------------------------------------------------------------
 
-$db=new mysqli('localhost', 'root', '', "abc_hosting");
+$db=new mysqli('mysql.zzz.com.ua', 'Lenka2023','Lenka20231', 'lenka2023');
+
 	if(mysqli_connect_errno()){
 		printf("Error connect to DB:%S\n",mysqli_error($db));
 		exit();
@@ -566,7 +570,7 @@ $remaining_balance = mysqli_fetch_array($result32);
 						  <label for="cheese">Cheese</label><br>
 						   <input type="submit" name="pay"  value="Pay" />
 							<input type="submit" name="delete" onclick="RemoveItem()"value="Delete" />
-							<input type="submit" name="add" onclick="SaveItem()" value="Add">
+							<input type="submit" class="add" name="add" onclick="SaveItem()" value="Add">
 							 <div id="items_table">
 								<h3>Shopping List</h3>
 								<table id="list"></table>
@@ -644,23 +648,80 @@ $remaining_balance = mysqli_fetch_array($result32);
 	
         
     <script>
-	//add new key=>value to the HTML5 storage
-function SaveItem() {
-			
-	var name = document.forms.ShoppingList.product.value;
-	var data = 1;
-	localStorage.setItem(name, data);
-	doShowAll();
 	
-}
-//------------------------------------------------------------------------------
+	//add new key=>value to the HTML5 storage
+	
+	var i=0;
+	var data=0;
+	
 
+
+function SaveItem() {
+	 console.log(localStorage);
+	var name = document.forms.ShoppingList.product.value;
+	if(name!=0){
+	if (localStorage.getItem(name) !=null)
+	{
+		i=localStorage.getItem(name);
+		
+	}else{
+		i=0;
+		}	
+	i++;
+	data=i;
+	  localStorage.setItem(name, data);
+	  
+doShowAll();
+
+}
+}
+
+
+//------------------------------------------------------------------------------
+//change an existing key=>value in the HTML5 storage
+function ModifyItem() {
+	var name1 = document.forms.ShoppingList.name.value;
+	var data1 = document.forms.ShoppingList.data.value;
+	//check if name1 is already exists
+	
+//check if key exists
+			if (localStorage.getItem(name1) !=null)
+			{
+			  //update
+			  localStorage.setItem(name1,data1);
+			  document.forms.ShoppingList.data.value = localStorage.getItem(name1);
+			}
+		
+	
+	doShowAll();
+}
 //-------------------------------------------------------------------------
 //delete an existing key=>value from the HTML5 storage
-function RemoveItem() {
-	var name = document.forms.ShoppingList.product.value;
-	document.forms.ShoppingList.data.value = localStorage.removeItem(name);
+/*function SaveItem() {
+			
+	var name = document.forms.ShoppingList.name.value;
+	var data = i++;
+	localStorage.setItem(name, data);
 	doShowAll();
+	i=data;
+}*/
+//delete an existing key=>value from the HTML5 storage
+function RemoveItem() {
+		 console.log(localStorage);
+	var name = document.forms.ShoppingList.product.value;
+	if(name!=0){
+	if (localStorage.getItem(name) !=null)
+	{
+		i=localStorage.getItem(name);
+		
+	}else{
+		i=0;
+		}	
+	i--;
+	data=i;
+	  localStorage.setItem(name, data);
+	}	  
+doShowAll();
 }
 //-------------------------------------------------------------------------------------
 //restart the local storage
