@@ -44,7 +44,7 @@ interface Basket{
 	public function Add()
 			{
 				$this->_count=$this->_count+1;
-				 var_dump($this->_count);
+				
 			}
 				
 			
@@ -52,8 +52,9 @@ interface Basket{
 			public function Delete()
 			{
 				$this->_count=$this->_count-1;
-				var_dump($this->_count);
+				
 			}
+			
 	}
 		  class Apple extends Product{
 			function	__construct()
@@ -334,66 +335,54 @@ function Pay4(){
 //--------------------------------------------------------------------------------------------------------------------------
 if(array_key_exists('add',$_POST)){
 		if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
-			var_dump("add Cheese");
 			Add4();
 			}
 		if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
-			var_dump("add Water");
 			Add3();
 				}
 		if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
-			var_dump("add Beer");
 			Add2();
 				}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
 		Add1();
-		var_dump("add Apple");	
 						}
 }			
 //--------------------------------------------------------------------------------------------------------------------------
 if(array_key_exists('delete',$_POST)){
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
-		var_dump("delete Cheese");
 		Delete4();
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
-		var_dump("delete Water");
 		Delete3();
 			}	
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
-		var_dump("delete Beer");
-		Delete2();
+			Delete2();
 			}	
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
-		var_dump("delete Apple");	
 		Delete1();
 			}	
 			}	 
 //--------------------------------------------------------------------------------------------------------------------------
  if(array_key_exists('pay',$_POST)){
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='cheese')) {
-		var_dump("pay Cheese");
 		Pay4();
 		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
 		echo "Please select shiping";
 }
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='water')) {
-		var_dump("pay Water");
 		Pay3();
 		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
 		echo "Please select shiping";
 }
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='beer')) {
-		var_dump("pay Beer");
 		Pay2();
 		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
 		echo "Please select shiping";
 }
 			}
 	if((isset($_POST['product']))&&(!empty($_POST['product']))&&($_POST['product']=='apple')) {
-		var_dump("pay Apple");	
 		Pay1();
 		if((!isset($_POST['shiping']))&&(empty($_POST['shiping']))){
 		echo "Please select shiping ";
@@ -427,7 +416,6 @@ while ($num = mysqli_fetch_assoc ($result8)) {
     $qtyapp += $num['apple_rate'];
 }
 	$middleapple=$qtyapp/$n[0];
-	var_dump($middleapple);
 		$query20="UPDATE `products` SET Rate = $middleapple WHERE Product = 'Apple'";
         $result20=mysqli_query($db, $query20);
 	
@@ -441,14 +429,12 @@ if(!isset($_SESSION['mypage_view']))
 if(isset($_SESSION['mypage_view'])) {		
 if(isset($_POST['beer'])){
 	$beer_rate=$_POST['beer'];
-	var_dump($beer_rate);
 	$query11="INSERT INTO `beer_rate`(beer_rate) VALUES ('$beer_rate')";
 	$result11=mysqli_query($db, $query11);
 	$query12="SELECT MAX(id) FROM `beer_rate`";
 	$result12=mysqli_query($db, $query12);
 	
 	$n = mysqli_fetch_array($result12);
-	var_dump($n[0]);
 	$query10="SELECT beer_rate FROM `beer_rate` ";
 	$result10=mysqli_query($db, $query10);
 	$qtybee= 0;
@@ -458,8 +444,7 @@ while ($num = mysqli_fetch_assoc ($result10)) {
 
 	
 	$middlebeer=$qtybee/$n[0];
-	var_dump($middlebeer);
-	$query21="UPDATE `products` SET Rate = $middlebeer WHERE Product = 'Beer'";
+		$query21="UPDATE `products` SET Rate = $middlebeer WHERE Product = 'Beer'";
         $result21=mysqli_query($db, $query21);
 	 $_SESSION['didit'] = true; 
 }}}
@@ -472,14 +457,12 @@ if(!isset($_SESSION['mypage_view']))
 if(isset($_SESSION['mypage_view'])) {									
 if(isset($_POST['water'])){
 	$water_rate=$_POST['water'];
-	var_dump($water_rate);
 	$query16="INSERT INTO `water_rate`(water_rate) VALUES ('$water_rate')";
 	$result16=mysqli_query($db, $query16);
 	$query17="SELECT MAX(id) FROM `water_rate`";
 	$result17=mysqli_query($db, $query17);
 	
 	$n = mysqli_fetch_array($result17);
-	var_dump($n[0]);
 	$query18="SELECT water_rate FROM `water_rate` ";
 	$result18=mysqli_query($db, $query18);
 	$qtyw= 0;
@@ -489,7 +472,6 @@ while ($num = mysqli_fetch_assoc ($result18)) {
 
 	
 	$middlewater=$qtyw/$n[0];
-	var_dump($middlewater);
 	$query22="UPDATE `products` SET Rate = $middlewater WHERE Product = 'Water'";
         $result22=mysqli_query($db, $query22);
 	  
@@ -503,14 +485,12 @@ if(!isset($_SESSION['mypage_view']))
 if(isset($_SESSION['mypage_view'])) {									
 if(isset($_POST['cheese'])){
 	$cheese_rate=$_POST['cheese'];
-	var_dump($cheese_rate);
 	$query13="INSERT INTO `cheese_rate`(cheese_rate) VALUES ('$cheese_rate')";
 	$result13=mysqli_query($db, $query13);
 	$query14="SELECT MAX(id) FROM `cheese_rate`";
 	$result14=mysqli_query($db, $query14);
 	
 	$n = mysqli_fetch_array($result14);
-	var_dump($n[0]);
 	$query15="SELECT cheese_rate FROM `cheese_rate` ";
 	$result15=mysqli_query($db, $query15);
 	$qtyc= 0;
@@ -520,7 +500,6 @@ while ($num = mysqli_fetch_assoc ($result15)) {
 
 	
 	$middlecheese=$qtyc/$n[0];
-	var_dump($middlecheese);
 	$query23="UPDATE `products` SET Rate = $middlecheese WHERE Product = 'Сheese'";
         $result23=mysqli_query($db, $query23);
 	 
@@ -696,15 +675,7 @@ function ModifyItem() {
 	doShowAll();
 }
 //-------------------------------------------------------------------------
-//delete an existing key=>value from the HTML5 storage
-/*function SaveItem() {
-			
-	var name = document.forms.ShoppingList.name.value;
-	var data = i++;
-	localStorage.setItem(name, data);
-	doShowAll();
-	i=data;
-}*/
+
 //delete an existing key=>value from the HTML5 storage
 function RemoveItem() {
 		 console.log(localStorage);
